@@ -1,5 +1,36 @@
 
+:root {
+    --background-color: rgb(235 235 235);
+    --container-color: rgb(218 218 218);
+    --text-color-secondary: rgb(96 96 96);
+    --text-color-primary: rgb(55 55 55);
+}
+
+body {
+    background: var(--background-color);
+    font-family: sans-serif;
+    color: var(--text-color-primary);
+}
+
+/* Vertical by default */
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+}
+
+#main-container {
+    border-radius: 5px;
+    background: var(--container-color);
+    padding: 0 20px;
+    max-width: 500px;
+    margin: auto;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0px;
+}
 
 h1 {
-    color: red;
+    text-align: center;
 }

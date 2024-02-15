@@ -8,10 +8,35 @@
 
     <!-- CSS and JS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/footer.css') }}">
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <h2>Welcome to FlaskApp!</h2>
-    <p>Today it is {{ utc_dt }}</p>
+    <div class="container" id="main-container">
+        <div class="container header">
+            <h1>The stocks game</h1>
+            <p>A simple game where you try to maximize the profit of your stock.</p>
+            <hr>
+        </div>
+
+        <div class="container">
+            <div id="rules">
+                Game rules
+            </div>
+            <div id="user_data">
+                User data and play button.
+            </div>
+        </div>
+    </div>
+
+    <div class="container footer">
+        <p>
+            This website was created by <b>Martín Alejandre Chaya</b> for the
+            Final Master's Thesis <b>Studying algorithmic trading from a Game Theory
+            and Reinforcement Learning perspective</b><br>
+            Tutored by <b>Alberto Antonioni</b> in the Carlos III University of Madrid.
+        </p>
+    </div>
+
 </body>
 </html>
