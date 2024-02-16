@@ -1,0 +1,17 @@
+
+.header {
+
+}
+
+.header h1 {
+    margin: 5px 0;
+}
+
+.header p {
+    color: var(--text-color-secondary);
+    text-align: center;
+}
+
+.header hr {
+    width: 100%;
+}
