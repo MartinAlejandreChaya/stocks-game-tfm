@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/header.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/footer.css') }}">
+
+    <script src="{{ url_for('static', filename='./js/general.js') }}"></script>
 </head>
 <body>
     <div class="container" id="main-container">
@@ -21,10 +23,24 @@
 
         <div class="container">
             <div id="rules">
-                Game rules
+                <p id="rules-p">
+                    <b>Game rules</b> <br />
+                    (i) You are given a stock with a value of 10 units and 7 days to sell it. <br>
+                    (ii) Each day you are offered a price in the market, and you can choose to sell
+                    or not sell your stock. <br>
+                    (iii) On the 7th day you are forced to sell the stock no matter the price. <br>
+                    <i> Remarks </i>  <br>
+                    (i) The prices offered at the market follow are random (uniform) between 0 and 20. <br>
+                    (ii) There is another agent playing at the same time, if you both sell the same day
+                    you are penalized and only receive half of the price. <br>
+                    (iii) Any day you will know if the other agent already sold his stock. Otherwise, bare in
+                    mind to try not to choose the same day to sell.
+                </p>
+                <a id="rules-hide-button">Hide</a>
             </div>
-            <div id="user_data">
-                User data and play button.
+            <div id="user-data">
+                <input placeholder="Name" type="text">
+                <button id="play-button">Play</button>
             </div>
         </div>
     </div>
