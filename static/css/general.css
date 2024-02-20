@@ -78,33 +78,3 @@ button:hover {
     font-size: 0.85em;
     margin-top: 3px;
 }
-
-/* User data */
-#user-data {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-#user-data input {
-    display: block;
-    width: 80%;
-    margin: 0 auto;
-    padding: 5px 10px;
-    border-radius: 5px;
-    border: solid 1px var(--input-placeholder-color);
-    background: transparent;
-}
-#user-data input::placeholder {
-    color: var(--input-placeholder-color);
-}
-#user-data input:focus {
-    border: solid 1px var(--text-color-primary);
-    outline: 0;
-}
-
-#user-data #play-button {
-    width: 50%;
-    max-width: 120px;
-    margin-top: 10px;
-}
