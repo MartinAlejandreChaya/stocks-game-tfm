@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/general.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/header.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/user_data.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/game.css') }}">
 
     <script src="{{ url_for('static', filename='./js/general.js') }}"></script>
 </head>
@@ -39,8 +41,51 @@
                 <a id="rules-hide-button">Hide</a>
             </div>
             <div id="user-data">
-                <input placeholder="Name" type="text">
+                <input id="user-data-name" placeholder="Name" type="text">
+                <div id="user-data-age-container">
+                    <label for="user-data-age" style="margin-right: 10px;">Age</label>
+                    <input id="user-data-age" name="user-data-age" type="number">
+                </div>
+                <select id="user-data-study-level">
+                    <option value="" disabled selected>Highest current or past level of studies</option>
+                    <option value="undergraduate">Undergraduate (high school)</option>
+                    <option value="graduate">Graduate (university)</option>
+                    <option value="master">Postgraduate (master)</option>
+                    <option value="phd">Postgraduate (PhD)</option>
+                </select>
+                <div id="user-data-study-field-container">
+                    <legend>
+                        Select the fields you have studied:
+                    </legend>
+                    <div id="user-data-study-field">
+                        <div>
+                            <input id="study-field-maths" name="study-field-maths" type="checkbox">
+                            <label for="study-field-maths">Mathematics / Statistics</label>
+                        </div>
+                        <div>
+                            <input id="study-field-economy" name="study-field-economy" type="checkbox">
+                            <label for="study-field-economy">Economy</label>
+                        </div>
+                        <div>
+                            <input id="study-field-social" name="study-field-social" type="checkbox">
+                            <label for="study-field-social">Social studies</label>
+                        </div>
+                    </div>
+                </div>
                 <button id="play-button">Play</button>
+            </div>
+
+            <!-- Actual game -->
+            <div id="game">
+                <div id="game-state">
+                    <span>Day <b>4</b></span>
+                    <span>Price <b>12.52</b></span>
+                    <span>Other selled: <b>yes</b></span>
+                </div>
+                <div id="game-action">
+                    <button>Sell</button>
+                    <button>Don't sell</button>
+                </div>
             </div>
         </div>
     </div>
