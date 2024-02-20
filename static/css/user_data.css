@@ -1,0 +1,52 @@
+
+/* User data */
+#user-data {
+    width: 80%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    row-gap: 3px;
+}
+
+#user-data input[type="text"] {
+    display: block;
+}
+#user-data input, select {
+    border-radius: 5px;
+    border: solid 1px var(--input-placeholder-color);
+    background: transparent;
+    padding: 5px 10px;
+}
+#user-data input::placeholder {
+    color: var(--input-placeholder-color);
+}
+#user-data input:focus, select:focus {
+    border: solid 1px var(--text-color-primary);
+    outline: 0;
+}
+
+#user-data #user-data-age-container label {
+    font-size: 0.9em;
+}
+
+#user-data #play-button {
+    width: 50%;
+    margin: 5px auto 0px auto;
+    max-width: 120px;
+}
+
+#user-data #user-data-study-field {
+    width: fit-content;
+    margin-left: 20px;
+    font-size: 0.9em;
+    color: var(--text-color-secondary);
+}
+#user-data #user-data-study-field > div {
+    display: flex;
+}
+
+#user-data #user-data-study-field > div > input:checked + label {
+    color: var(--text-color-primary);
+}
+

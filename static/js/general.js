@@ -1,4 +1,13 @@
+// CONSTANTS
 
+// Variables
+const user_data = {
+    "name": "",
+    "age": -1,
+    "gender": "",
+    "study_level": "",
+    "study_field": ""
+}
 
 window.onload = () => {
 
@@ -36,7 +45,18 @@ window.onload = () => {
             * Show user average
             * Show some strategies averages.
             * Show current database average (?) Maybe this introduces bias
-
         */
+    })
+
+    /* Setup input fields */
+    setupInputs();
+}
+
+function setupInputs(play_button) {
+
+    const name_input = document.getElementById("user-data-name");
+
+    name_input.addEventListener('keyup', (ev) => {
+        user_data["name"] = name_input.value;
     })
 }
