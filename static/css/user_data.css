@@ -9,6 +9,10 @@
     row-gap: 3px;
 }
 
+#user-data > * {
+    margin-bottom: 10px;
+}
+
 #user-data input[type="text"] {
     display: block;
 }
@@ -30,10 +34,15 @@
     font-size: 0.9em;
 }
 
-#user-data #play-button {
-    width: 50%;
-    margin: 5px auto 0px auto;
+#user-data #user-data-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#user-data #user-data-buttons #play-button, #tutorial-button {
+    width: 45%;
     max-width: 120px;
+    padding: 10px 2px;
 }
 
 #user-data #user-data-study-field {
