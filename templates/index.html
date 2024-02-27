@@ -44,10 +44,10 @@
                 <input id="user-data-name" placeholder="Name" type="text">
                 <div id="user-data-age-container">
                     <label for="user-data-age" style="margin-right: 10px;">Age</label>
-                    <input id="user-data-age" name="user-data-age" type="number">
+                    <input id="user-data-age" name="user-data-age" type="number" min="10" max="120">
                 </div>
                 <select id="user-data-study-level">
-                    <option value="" disabled selected>Highest current or past level of studies</option>
+                    <option value="null" disabled selected>Highest current or past level of studies</option>
                     <option value="undergraduate">Undergraduate (high school)</option>
                     <option value="graduate">Graduate (university)</option>
                     <option value="master">Postgraduate (master)</option>
@@ -55,7 +55,7 @@
                 </select>
                 <div id="user-data-study-field-container">
                     <legend>
-                        Select the fields you have studied:
+                        Select the fields you have studied (if any):
                     </legend>
                     <div id="user-data-study-field">
                         <div>
@@ -72,7 +72,10 @@
                         </div>
                     </div>
                 </div>
-                <button id="play-button">Play</button>
+                <div id="user-data-buttons">
+                    <button id="tutorial-button">Tutorial</button>
+                    <button id="play-button">Play</button>
+                </div>
             </div>
 
             <!-- Actual game -->
@@ -82,9 +85,16 @@
                     <span>Price <b>12.52</b></span>
                     <span>Other selled: <b>yes</b></span>
                 </div>
+                <div id="game-explanation">
+                    <p>This is a sample explanation text</p>
+                    <button id="quit-tutorial-button">Quit tutorial</button>
+                </div>
                 <div id="game-action">
                     <button>Sell</button>
                     <button>Don't sell</button>
+                </div>
+                <div id="game-outcome">
+                    <p>You lost 50€ loser</p>
                 </div>
             </div>
         </div>
