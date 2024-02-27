@@ -11,6 +11,9 @@
     --link-color-hover: #2637d7;
 
     --button-color: #329F5B;
+    --button-disabled-background: #a5a5a5;
+    --button-disabled-border: #22222;
+    --button-disabled-text: #555555;
 }
 
 body {
@@ -64,6 +67,12 @@ button {
 button:hover {
     background: var(--button-color);
     color: white;
+}
+
+button:disabled, button[disabled] {
+    background: var(--button-disabled-background) !important;
+    border: none;
+    color: var(--button-disabled-text);
 }
 
 

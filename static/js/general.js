@@ -2,20 +2,31 @@
 
 // VARIABLES
 let current_user_data = {};
+let player_id, game_id;
+let game_state_dom = {}
+let game_dom = {}
+let game_outcome_dom = {}
 
 window.onload = () => {
 
     // Setup visibility of different components
     const user_data = document.getElementById("user-data");
     const game = document.getElementById("game")
-    const game_state = document.getElementById("game-state");
-    const game_explanation = document.getElementById("game-explanation");
-    const game_action = document.getElementById("game-action");
-    const game_outcome = document.getElementById("game-outcome");
+    game_dom["state"] = document.getElementById("game-state");
+    game_dom["explanation"] = document.getElementById("game-explanation");
+    game_dom["action"] = document.getElementById("game-action");
+    game_dom["outcome"] = document.getElementById("game-outcome");
 
     // Initial visibility
     user_data.style.display = "block";
     game.style.display = "none";
+
+    // Game state DOM
+    game_state_dom["day"] = document.getElementById("game-state-day");
+    game_state_dom["price"] = document.getElementById("game-state-price");
+    game_state_dom["other_selled"] = document.getElementById("game-state-other-selled");
+    // Game outcome DOM
+    game_outcome_dom["reward"] = document.getElementById("game-outcome-reward")
 
     // Rules hide button
     const rules_hide_button = document.getElementById("rules-hide-button")
@@ -64,9 +75,14 @@ window.onload = () => {
                 // If everything went well
                 user_data.style.display = "none";
                 game.style.display = "block";
-                game_state.style.display = "block";
-                game_explanation.style.display = "none";
-                game_outcome.style.display = "none";
+                game_dom["state"].style.display = "block";
+                game_dom["explanation"].style.display = "none";
+                game_dom["outcome"].style.display = "none";
+
+                // Begin game
+                player_id = data["player_id"]
+                game_id = 0
+                begin_game()
             })
             .catch(error => {
                 alert("Error. Please reload page.");
@@ -86,9 +102,9 @@ window.onload = () => {
 
         user_data.style.display = "none";
         game.style.display = "block";
-        game_state.style.display = "block";
-        game_explanation.style.display = "block";
-        game_outcome.style.display = "none";
+        game_dom["state"].style.display = "block";
+        game_dom["explanation"].style.display = "block";
+        game_dom["outcome"].style.display = "none";
     })
 
     // Quit tutorial button
@@ -128,6 +144,22 @@ window.onload = () => {
         game_state.style.display = "block";
         game_explanation.style.display = "none";
         game_outcome.style.display = "none";
+    })
+
+    // Game replay button
+    const game_replay_button = document.getElementById("game-replay-button");
+    game_replay_button.addEventListener('click', () => {
+        restart_game();
+    })
+
+    // sell and dont sell buttons
+    const game_sell_button = document.getElementById("game-sell-button");
+    game_sell_button.addEventListener('click', () => {
+        game_step("sell");
+    })
+    const game_dont_sell_button = document.getElementById("game-dont-sell-button");
+    game_dont_sell_button.addEventListener('click', () => {
+        game_step("dont sell");
     })
 }
 
