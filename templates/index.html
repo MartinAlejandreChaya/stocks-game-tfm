@@ -15,6 +15,7 @@
 
     <script src="{{ url_for('static', filename='./js/general.js') }}"></script>
     <script src="{{ url_for('static', filename='./js/game.js') }}"></script>
+    <script src="{{ url_for('static', filename='./js/tutorial.js') }}"></script>
 </head>
 <body>
     <div class="container" id="main-container">
@@ -88,7 +89,7 @@
                     <span>Other selled: <b id="game-state-other-selled">yes</b></span>
                 </div>
                 <div id="game-explanation">
-                    <p>This is a sample explanation text</p>
+                    <p id="game-explanation-text">This is a sample explanation text</p>
                     <button id="quit-tutorial-button">Quit tutorial</button>
                 </div>
                 <div id="game-action">

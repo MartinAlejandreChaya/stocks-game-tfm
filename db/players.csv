@@ -1,1 +1,5 @@
 player_id,date,tutorial,name,age,study_level,study_field_maths,study_field_economy,study_field_social
+0,2024-02-29 20:25:19.357713,True,a,12,undergraduate,False,False,False
+1,2024-02-29 20:58:27.574014,True,a,11,undergraduate,False,False,False
+2,2024-02-29 20:59:01.164239,True,a,10,master,False,False,False
+3,2024-02-29 21:00:36.594483,True,a,10,undergraduate,True,False,False
