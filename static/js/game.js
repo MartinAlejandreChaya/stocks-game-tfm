@@ -84,7 +84,7 @@ function send_server(game_state, action) {
         "state_day": game_state["day"],
         "state_price": game_state["price"],
         "state_other_selled": game_state["other_selled"],
-        "action": game_state[action] == "sell",
+        "action": action == "sell",
         "result": 0
     }
 
