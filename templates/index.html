@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='./css/game.css') }}">
 
     <script src="{{ url_for('static', filename='./js/general.js') }}"></script>
+    <script src="{{ url_for('static', filename='./js/game.js') }}"></script>
 </head>
 <body>
     <div class="container" id="main-container">
@@ -36,7 +37,8 @@
                     (ii) There is another agent playing at the same time, if you both sell the same day
                     you are penalized and only receive half of the price. <br>
                     (iii) Any day you will know if the other agent already sold his stock. Otherwise, bare in
-                    mind to try not to choose the same day to sell.
+                    mind to try not to choose the same day to sell. <br>
+                    (iv) You must not make any assumptions on the strategy of your oponent (other than he is playing optimally, like you)
                 </p>
                 <a id="rules-hide-button">Hide</a>
             </div>
@@ -81,20 +83,21 @@
             <!-- Actual game -->
             <div id="game">
                 <div id="game-state">
-                    <span>Day <b>4</b></span>
-                    <span>Price <b>12.52</b></span>
-                    <span>Other selled: <b>yes</b></span>
+                    <span>Day <b id="game-state-day">4</b></span>
+                    <span>Price <b id="game-state-price">12.52</b></span>
+                    <span>Other selled: <b id="game-state-other-selled">yes</b></span>
                 </div>
                 <div id="game-explanation">
                     <p>This is a sample explanation text</p>
                     <button id="quit-tutorial-button">Quit tutorial</button>
                 </div>
                 <div id="game-action">
-                    <button>Sell</button>
-                    <button>Don't sell</button>
+                    <button id="game-sell-button">Sell</button>
+                    <button id="game-dont-sell-button">Don't sell</button>
                 </div>
                 <div id="game-outcome">
-                    <p>You lost 50€ loser</p>
+                    <p>Your reward: <b id="game-outcome-reward">10</b></p>
+                    <button id="game-replay-button">Play again</button>
                 </div>
             </div>
         </div>

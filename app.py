@@ -36,6 +36,14 @@ def handle_play_request():
 
     response = {
         "player_id": db_manager.new_player(user_data),
-        "game_id": 0
     }
     return jsonify(response)
+
+@app.route("/game_move", methods=['POST'])
+def handle_game_move():
+
+    game_data = request.get_json()
+
+    db_manager.new_game(game_data);
+
+    return ('', 200)
