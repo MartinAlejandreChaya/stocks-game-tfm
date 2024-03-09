@@ -11,7 +11,7 @@ DB_GAMES_FIELD_NAMES = ["player_id", "game_id", "state_day",
 
 DB_PLAYERS_PATH = "db/players.csv"
 DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "tutorial", "name", "age",
-                          "study_level", "study_field_maths",
+                          "gender", "study_level", "study_field_maths",
                           "study_field_economy", "study_field_social"]
 
 

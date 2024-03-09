@@ -44,11 +44,17 @@
                 <a id="rules-hide-button">Hide</a>
             </div>
             <div id="user-data">
-                <input id="user-data-name" placeholder="Name" type="text">
+                <input id="user-data-name" placeholder="Nickname" type="text">
                 <div id="user-data-age-container">
                     <label for="user-data-age" style="margin-right: 10px;">Age</label>
                     <input id="user-data-age" name="user-data-age" type="number" min="10" max="120">
                 </div>
+                <select id="user-data-gender">
+                    <option value="null" selected>Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
                 <select id="user-data-study-level">
                     <option value="null" disabled selected>Highest current or past level of studies</option>
                     <option value="undergraduate">Undergraduate (high school)</option>
@@ -77,7 +83,6 @@
                 </div>
                 <div id="user-data-buttons">
                     <button id="tutorial-button">Tutorial</button>
-                    <button id="play-button">Play</button>
                 </div>
             </div>
 

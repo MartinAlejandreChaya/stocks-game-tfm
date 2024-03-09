@@ -68,11 +68,13 @@ let tutorial_current_step = -1;
 function begin_tutorial() {
     tutorial_current_step = 0;
 
+    tutorial_dom["quit_button"].style.display = "none";
+
     display_tutorial();
 }
 
 function tutorial_step(action) {
-    console.log(action)
+
     if (action == TUTORIAL_DATA[tutorial_current_step]["action"])
         tutorial_current_step += 1;
     else
@@ -85,10 +87,7 @@ function tutorial_step(action) {
         game_dom["outcome"].style.display = 'none';
     }
 
-    if (tutorial_current_step == TUTORIAL_DATA.length)
-        finish_tutorial();
-    else
-        display_tutorial();
+    display_tutorial();
 }
 
 function display_tutorial() {
@@ -101,6 +100,14 @@ function display_tutorial() {
         game_dom["state"].style.display = 'none'
         game_dom["action"].style.display = 'none'
         game_dom["outcome"].style.display = 'block';
+
+        if (tutorial_current_step == TUTORIAL_DATA.length - 1) {
+            // Final step
+            tutorial_dom["sell_button"].disabled = false;
+            tutorial_dom["dont_sell_button"].disabled = false;
+            document.getElementById("game-replay-button").style.display = 'none';
+            tutorial_dom["quit_button"].style.display = "block";
+        }
     }
     else  {
         // Display state
@@ -120,10 +127,4 @@ function display_tutorial() {
         }
     }
 
-}
-
-function finish_tutorial() {
-    tutorial_dom["sell_button"].disabled = false;
-    tutorial_dom["dont_sell_button"].disabled = false;
-    tutorial_dom["quit_button"].click();
 }

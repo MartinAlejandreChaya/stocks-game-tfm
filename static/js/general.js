@@ -49,51 +49,6 @@ window.onload = () => {
         rules_button_hidden = !rules_button_hidden;
     })
 
-    // Play button
-    const play_button = document.getElementById("play-button");
-    play_button.addEventListener('click', () => {
-        /* Verify user-data */
-        current_user_data = verify_user_data();
-        if (current_user_data["error"]) {
-            alert(current_user_data["error"]);
-            return;
-        }
-
-        /* Send play to server */
-        fetch('/play_request', {
-            method: "POST",
-            body: JSON.stringify(current_user_data),
-            headers: {"Content-Type": "application/json"},
-        })
-            .then((res) => res.json())
-            .catch((error) => alert("Error. Please reload page"))
-            .then(data => {
-                /* Server will respond with OK or with 'Master user' */
-                if (data["player_id"] == -1) {
-                    alert(JSON.stringify(data));
-                     // TODO: console.log(data); rather than alert
-                    return;
-                }
-                console.log(data);
-
-                // If everything went well
-                user_data.style.display = "none";
-                game.style.display = "block";
-                game_dom["state"].style.display = "block";
-                game_dom["explanation"].style.display = "none";
-                game_dom["outcome"].style.display = "none";
-
-                // Begin game
-                player_id = data["player_id"]
-                game_id = 0
-                begin_game()
-            })
-            .catch(error => {
-                alert("Error. Please reload page.");
-            });
-
-    })
-
     // Tutorial button
     const tutorial_button = document.getElementById("tutorial-button");
     tutorial_button.addEventListener('click', () => {
@@ -119,8 +74,7 @@ window.onload = () => {
     tutorial_dom["quit_button"] = quit_tutorial_button
     quit_tutorial_button.addEventListener('click', () => {
         // User data has already been verified
-        //* Send play to server with has done tutorial option */
-        current_user_data["tutorial"] = true;
+        //* Send play to server */
 
         fetch('/play_request', {
             method: "POST",
@@ -139,9 +93,11 @@ window.onload = () => {
                 // If everything went well
                 user_data.style.display = "none";
                 game.style.display = "block";
+                document.getElementById("game-replay-button").style.display = 'block';
                 game_dom["state"].style.display = "block";
                 game_dom["explanation"].style.display = "none";
                 game_dom["outcome"].style.display = "none";
+                game_dom["action"].style.display = "flex";
 
                 // Begin game
                 in_tutorial = false;
@@ -196,6 +152,9 @@ function verify_user_data() {
         return {"error": "Age must be between 10 and 120"}
     }
 
+    // Gender
+    gender = document.getElementById("user-data-gender").value;
+
     // Level of studies not null
     study_level = document.getElementById("user-data-study-level").value;
     if (study_level == "null") {
@@ -206,11 +165,11 @@ function verify_user_data() {
     return {
         "name": name,
         "age": age,
+        "gender": gender,
         "study_level": study_level,
         "study_field_maths":  document.getElementById("study-field-maths").checked,
         "study_field_economy": document.getElementById("study-field-economy").checked,
         "study_field_social": document.getElementById("study-field-social").checked,
         "error": false,
-        "tutorial": false
     };
 }
