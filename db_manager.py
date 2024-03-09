@@ -100,7 +100,7 @@ def get_player_statistics(player_id):
     player_rank = 1
     n_players = 0
     for sc in df["average_score"]:
-        if (sc > player_rank): player_rank += 1
+        if (sc > player_average): player_rank += 1
         if (sc != -1): n_players += 1
 
 

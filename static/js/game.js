@@ -1,6 +1,6 @@
 // VARIABLES
 let game_state = {}
-const TOTAL_REQUIRED_GAMES = 5;
+const TOTAL_REQUIRED_GAMES = 10;
 
 
 function begin_game() {
@@ -17,8 +17,7 @@ function begin_game() {
 }
 
 function game_step(action) {
-    // Send to server game state and action
-    send_server(game_state, action)
+    outcome = 0;
 
     // Take action
     if (action == "sell") {
@@ -48,6 +47,9 @@ function game_step(action) {
             document.getElementById("game-dont-sell-button").disabled = true;
         }
     }
+
+    // Send to server game state and action
+    send_server(game_state, action, outcome)
 }
 
 
@@ -112,7 +114,7 @@ function display_outcome(outcome) {
     }
 }
 
-function send_server(game_state, action) {
+function send_server(game_state, action, outcome) {
     game_move = {
         "player_id": player_id,
         "game_id": game_id,
@@ -120,7 +122,7 @@ function send_server(game_state, action) {
         "state_price": game_state["price"],
         "state_other_selled": game_state["other_selled"],
         "action": action == "sell",
-        "result": 0
+        "result": outcome
     }
 
     /* Send game move to server */
