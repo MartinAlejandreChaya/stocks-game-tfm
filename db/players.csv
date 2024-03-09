@@ -1,1 +1,1 @@
-player_id,date,tutorial,name,age,study_level,study_field_maths,study_field_economy,study_field_social
+player_id,date,name,age,gender,study_level,study_field_maths,study_field_economy,study_field_social,average_score

@@ -1,5 +1,7 @@
 // VARIABLES
 let game_state = {}
+const TOTAL_REQUIRED_GAMES = 10;
+
 
 function begin_game() {
     game_state = {
@@ -15,8 +17,7 @@ function begin_game() {
 }
 
 function game_step(action) {
-    // Send to server game state and action
-    send_server(game_state, action)
+    outcome = 0;
 
     // Take action
     if (action == "sell") {
@@ -46,6 +47,9 @@ function game_step(action) {
             document.getElementById("game-dont-sell-button").disabled = true;
         }
     }
+
+    // Send to server game state and action
+    send_server(game_state, action, outcome)
 }
 
 
@@ -75,17 +79,50 @@ function display_state() {
 }
 function display_outcome(outcome) {
     game_outcome_dom["reward"].textContent = outcome.toString();
+    game_outcome_dom["game_number"].textContent = (game_id+1).toString();
+
+    if (game_id+1 >= TOTAL_REQUIRED_GAMES) {
+        // Show statistics
+        fetch('/get_player_statistics?player_id='+player_id, {
+            method: "GET"
+        })
+            .then((res) => res.json())
+            .catch((error) => {
+                console.log("Error: ", error)
+                alert("Error computing your statistics.");
+                return null;
+             })
+            .then(data => {
+                /* Server will respond with player statistics */
+                console.log(data);
+
+                // Display statistics and hide everything else
+                document.getElementById("game-statistics").style.display = "block";
+                for (key in game_dom) {
+                    game_dom[key].style.display = "none";
+                }
+
+                game_statistics_dom["your-score"].textContent = data["your_average"].toString()
+                game_statistics_dom["player-score"].textContent = data["player_base_average"].toString()
+                game_statistics_dom["rank"].textContent = data["your_rank"][0].toString()
+                game_statistics_dom["n_players"].textContent = data["your_rank"][1].toString()
+            })
+            .catch(error => {
+                console.log("Error: ", error)
+                alert("Error. Please reload page.");
+            });
+    }
 }
 
-function send_server(game_state, action) {
+function send_server(game_state, action, outcome) {
     game_move = {
         "player_id": player_id,
         "game_id": game_id,
         "state_day": game_state["day"],
         "state_price": game_state["price"],
         "state_other_selled": game_state["other_selled"],
-        "action": game_state[action] == "sell",
-        "result": 0
+        "action": action == "sell",
+        "result": outcome
     }
 
     /* Send game move to server */
