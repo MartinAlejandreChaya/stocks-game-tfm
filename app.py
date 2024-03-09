@@ -14,30 +14,17 @@ app = Flask(__name__)
 def index():
     return render_template("index.html", utc_dt=datetime.datetime.utcnow())
 
-@app.route("/test_db")
-def test_db():
-
-    db_manager.new_game({"player_id": 1, "game_id": 12,
-                        "state_day": 17, "state_price": 16.41,
-                         "state_other_selled": True, "action": 1, "result": -15})
-
-    return "Success"
-
 
 @app.route('/play_request', methods=['POST'])
 def handle_play_request():
     user_data = request.get_json()
 
-    # MASTER USER. Show information
-    if (user_data["name"] == "master_user --getData pass22"):
-        values = db_manager.get_values()
-        values["player_id"] = -1
-        return jsonify(values)
-
     response = {
         "player_id": db_manager.new_player(user_data),
     }
+
     return jsonify(response)
+
 
 @app.route("/game_move", methods=['POST'])
 def handle_game_move():
@@ -47,3 +34,18 @@ def handle_game_move():
     db_manager.new_game(game_data);
 
     return ('', 200)
+
+
+@app.route("/master_user/getData22", methods=["GET"])
+def get_data():
+    values = db_manager.get_values()
+    return jsonify(values)
+
+@app.route("/get_player_statistics", methods=["GET"])
+def get_player_statistics():
+    player_id = int(request.args.get('player_id'))
+
+    player_statistics = db_manager.get_player_statistics(player_id)
+    print(player_statistics)
+
+    return jsonify(player_statistics);

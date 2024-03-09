@@ -1,6 +1,7 @@
 import json
 from csv import DictWriter
-from datetime import datetime;
+from datetime import datetime
+import pandas as pd
 
 VALUES_PATH = "db/values.json"
 
@@ -10,9 +11,10 @@ DB_GAMES_FIELD_NAMES = ["player_id", "game_id", "state_day",
                         "action", "result"]
 
 DB_PLAYERS_PATH = "db/players.csv"
-DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "tutorial", "name", "age",
-                          "study_level", "study_field_maths",
-                          "study_field_economy", "study_field_social"]
+DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "name", "age",
+                          "gender", "study_level", "study_field_maths",
+                          "study_field_economy", "study_field_social",
+                          "average_score"]
 
 
 def new_game(game_data):
@@ -31,6 +33,7 @@ def new_player(player_data):
 
         player_data["date"] = datetime.now();
         player_data["player_id"] = get_new_player_id();
+        player_data["average_score"] = -1;
 
         dictwriter_object.writerow(player_data)
         f_object.close()
@@ -72,3 +75,37 @@ def save_values(new_values):
 # Return the important data for the master user to see
 def get_master_user_data():
     return get_values()
+
+
+def get_player_statistics(player_id):
+    df = pd.read_csv(DB_GAMES_PATH, header=0, names=DB_GAMES_FIELD_NAMES, index_col = False)
+
+    player_base_average = df[df["action"] == True]["result"].mean()
+
+    # save player-base average to json
+    values = get_values()
+    values["player_base_average"] = player_base_average
+    save_values(values)
+
+    # Compute player average
+    player_average = df[df["player_id"] == player_id][df["action"] == True]["result"].mean()
+
+    # Compute player rank
+    df = pd.read_csv(DB_PLAYERS_PATH, header=0, names=DB_PLAYERS_FIELD_NAMES, index_col=False);
+    df.loc[df["player_id"] == player_id, "average_score"] = player_average
+    # Save player average score
+    df.to_csv(DB_PLAYERS_PATH, index=False)
+
+    # Calculate the rank of your score
+    player_rank = 1
+    n_players = 0
+    for sc in df["average_score"]:
+        if (sc > player_average): player_rank += 1
+        if (sc != -1): n_players += 1
+
+
+    return {
+        "player_base_average": player_base_average,
+        "your_average": player_average,
+        "your_rank": [player_rank, n_players]
+    }

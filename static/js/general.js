@@ -6,6 +6,9 @@ let player_id, game_id;
 let game_state_dom = {}
 let game_dom = {}
 let game_outcome_dom = {}
+let game_statistics_dom = {}
+let in_tutorial = false
+let tutorial_dom = {}
 
 window.onload = () => {
 
@@ -27,6 +30,15 @@ window.onload = () => {
     game_state_dom["other_selled"] = document.getElementById("game-state-other-selled");
     // Game outcome DOM
     game_outcome_dom["reward"] = document.getElementById("game-outcome-reward")
+    game_outcome_dom["game_number"] = document.getElementById("game-outcome-game-number");
+    document.getElementById("total-games-required").textContent = TOTAL_REQUIRED_GAMES.toString();
+    // Statistics DOM
+    game_statistics_dom["your-score"] = document.getElementById("game-statistics-your-score");
+    game_statistics_dom["player-score"] = document.getElementById("game-statistics-players-score");
+    game_statistics_dom["rank"] = document.getElementById("game-statistics-rank");
+    game_statistics_dom["n_players"] = document.getElementById("game-statistics-n-players");
+    // Tutorial DOM
+    tutorial_dom["explanation"] = document.getElementById("game-explanation-text");
 
     // Rules hide button
     const rules_hide_button = document.getElementById("rules-hide-button")
@@ -45,51 +57,6 @@ window.onload = () => {
         rules_button_hidden = !rules_button_hidden;
     })
 
-    // Play button
-    const play_button = document.getElementById("play-button");
-    play_button.addEventListener('click', () => {
-        /* Verify user-data */
-        current_user_data = verify_user_data();
-        if (current_user_data["error"]) {
-            alert(current_user_data["error"]);
-            return;
-        }
-
-        /* Send play to server */
-        fetch('/play_request', {
-            method: "POST",
-            body: JSON.stringify(current_user_data),
-            headers: {"Content-Type": "application/json"},
-        })
-            .then((res) => res.json())
-            .catch((error) => alert("Error. Please reload page"))
-            .then(data => {
-                /* Server will respond with OK or with 'Master user' */
-                if (data["player_id"] == -1) {
-                    alert(JSON.stringify(data));
-                     // TODO: console.log(data); rather than alert
-                    return;
-                }
-                console.log(data);
-
-                // If everything went well
-                user_data.style.display = "none";
-                game.style.display = "block";
-                game_dom["state"].style.display = "block";
-                game_dom["explanation"].style.display = "none";
-                game_dom["outcome"].style.display = "none";
-
-                // Begin game
-                player_id = data["player_id"]
-                game_id = 0
-                begin_game()
-            })
-            .catch(error => {
-                alert("Error. Please reload page.");
-            });
-
-    })
-
     // Tutorial button
     const tutorial_button = document.getElementById("tutorial-button");
     tutorial_button.addEventListener('click', () => {
@@ -100,6 +67,9 @@ window.onload = () => {
             return;
         }
 
+        in_tutorial = true;
+        begin_tutorial();
+
         user_data.style.display = "none";
         game.style.display = "block";
         game_dom["state"].style.display = "block";
@@ -109,10 +79,10 @@ window.onload = () => {
 
     // Quit tutorial button
     const quit_tutorial_button = document.getElementById("quit-tutorial-button");
+    tutorial_dom["quit_button"] = quit_tutorial_button
     quit_tutorial_button.addEventListener('click', () => {
         // User data has already been verified
-        //* Send play to server with has done tutorial option */
-        current_user_data["tutorial"] = true;
+        //* Send play to server */
 
         fetch('/play_request', {
             method: "POST",
@@ -121,6 +91,7 @@ window.onload = () => {
         })
             .then((res) => res.json())
             .catch((error) => {
+                console.log("Error: ", error)
                 alert("Error. Please reload page");
                 return null;
              })
@@ -128,39 +99,48 @@ window.onload = () => {
                 /* Server will respond with OK or with 'Master user' */
                 if (data == null) return;
 
-                console.log(data);
-
                 // If everything went well
                 user_data.style.display = "none";
                 game.style.display = "block";
-                game_state.style.display = "block";
-                game_explanation.style.display = "none";
-                game_outcome.style.display = "none";
+                document.getElementById("game-replay-button").style.display = 'block';
+                game_dom["state"].style.display = "block";
+                game_dom["explanation"].style.display = "none";
+                game_dom["outcome"].style.display = "none";
+                game_dom["action"].style.display = "flex";
+
+                // Begin game
+                in_tutorial = false;
+                player_id = data["player_id"]
+                game_id = 0
+                begin_game()
             })
             .catch(error => {
+                console.log("Error: ", error)
                 alert("Error. Please reload page.");
             });
-
-        game_state.style.display = "block";
-        game_explanation.style.display = "none";
-        game_outcome.style.display = "none";
     })
 
     // Game replay button
     const game_replay_button = document.getElementById("game-replay-button");
     game_replay_button.addEventListener('click', () => {
-        restart_game();
+        if (in_tutorial) tutorial_step("any");
+        else restart_game();
     })
 
     // sell and dont sell buttons
     const game_sell_button = document.getElementById("game-sell-button");
     game_sell_button.addEventListener('click', () => {
-        game_step("sell");
+        if (in_tutorial) tutorial_step("sell");
+        else game_step("sell");
     })
     const game_dont_sell_button = document.getElementById("game-dont-sell-button");
     game_dont_sell_button.addEventListener('click', () => {
-        game_step("dont sell");
+        if (in_tutorial) tutorial_step("dont sell");
+        else game_step("dont sell");
     })
+
+    tutorial_dom["sell_button"] = game_sell_button;
+    tutorial_dom["dont_sell_button"] = game_dont_sell_button;
 }
 
 
@@ -178,6 +158,9 @@ function verify_user_data() {
         return {"error": "Age must be between 10 and 120"}
     }
 
+    // Gender
+    gender = document.getElementById("user-data-gender").value;
+
     // Level of studies not null
     study_level = document.getElementById("user-data-study-level").value;
     if (study_level == "null") {
@@ -188,11 +171,11 @@ function verify_user_data() {
     return {
         "name": name,
         "age": age,
+        "gender": gender,
         "study_level": study_level,
         "study_field_maths":  document.getElementById("study-field-maths").checked,
         "study_field_economy": document.getElementById("study-field-economy").checked,
         "study_field_social": document.getElementById("study-field-social").checked,
         "error": false,
-        "tutorial": false
     };
 }
