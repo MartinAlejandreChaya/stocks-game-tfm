@@ -1,1 +1,14 @@
-player_id,date,name,age,gender,study_level,study_field_maths,study_field_economy,study_field_social
+player_id,date,name,age,gender,study_level,study_field_maths,study_field_economy,study_field_social,average_score
+21,2024-03-09 20:06:48.463908,Mar  tin,11,male,graduate,False,True,False,-1
+22,2024-03-09 20:08:49.996086,master_user,11,,master,True,False,False,-1
+23,2024-03-09 20:10:09.190970,1,10,,graduate,False,False,False,-1
+24,2024-03-09 20:19:12.214064,1,11,,undergraduate,False,False,False,-1
+25,2024-03-09 20:20:09.737503,qa,10,,phd,False,False,False,-1
+26,2024-03-09 20:21:14.981463,a,10,,graduate,False,False,False,-1
+27,2024-03-09 20:23:12.321198,a,10,,graduate,False,False,False,-1
+28,2024-03-09 20:25:12.723446,1,11,,undergraduate,False,False,False,-1
+29,2024-03-09 20:27:13.344090,1,11,,graduate,False,False,False,-1
+30,2024-03-09 20:28:02.908863,a,10,,graduate,False,False,False,-1
+31,2024-03-09 20:29:29.842571,asdf,10,,undergraduate,False,False,False,0
+32,2024-03-09 20:44:08.054273,a,10,,graduate,False,True,False,-1
+33,2024-03-09 20:45:10.535178,Mar  tin,10,,master,False,False,False,0

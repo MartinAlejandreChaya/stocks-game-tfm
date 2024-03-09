@@ -36,7 +36,16 @@ def handle_game_move():
     return ('', 200)
 
 
-@app.route("/master_user/getData22")
+@app.route("/master_user/getData22", methods=["GET"])
 def get_data():
     values = db_manager.get_values()
     return jsonify(values)
+
+@app.route("/get_player_statistics", methods=["GET"])
+def get_player_statistics():
+    player_id = int(request.args.get('player_id'))
+
+    player_statistics = db_manager.get_player_statistics(player_id)
+    print(player_statistics)
+
+    return jsonify(player_statistics);

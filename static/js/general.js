@@ -6,7 +6,8 @@ let player_id, game_id;
 let game_state_dom = {}
 let game_dom = {}
 let game_outcome_dom = {}
-let in_tutorial = false;
+let game_statistics_dom = {}
+let in_tutorial = false
 let tutorial_dom = {}
 
 window.onload = () => {
@@ -29,6 +30,13 @@ window.onload = () => {
     game_state_dom["other_selled"] = document.getElementById("game-state-other-selled");
     // Game outcome DOM
     game_outcome_dom["reward"] = document.getElementById("game-outcome-reward")
+    game_outcome_dom["game_number"] = document.getElementById("game-outcome-game-number");
+    document.getElementById("total-games-required").textContent = TOTAL_REQUIRED_GAMES.toString();
+    // Statistics DOM
+    game_statistics_dom["your-score"] = document.getElementById("game-statistics-your-score");
+    game_statistics_dom["player-score"] = document.getElementById("game-statistics-players-score");
+    game_statistics_dom["rank"] = document.getElementById("game-statistics-rank");
+    game_statistics_dom["n_players"] = document.getElementById("game-statistics-n-players");
     // Tutorial DOM
     tutorial_dom["explanation"] = document.getElementById("game-explanation-text");
 
@@ -83,6 +91,7 @@ window.onload = () => {
         })
             .then((res) => res.json())
             .catch((error) => {
+                console.log("Error: ", error)
                 alert("Error. Please reload page");
                 return null;
              })
@@ -106,12 +115,9 @@ window.onload = () => {
                 begin_game()
             })
             .catch(error => {
+                console.log("Error: ", error)
                 alert("Error. Please reload page.");
             });
-
-        game_state.style.display = "block";
-        game_explanation.style.display = "none";
-        game_outcome.style.display = "none";
     })
 
     // Game replay button

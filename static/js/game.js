@@ -1,5 +1,7 @@
 // VARIABLES
 let game_state = {}
+const TOTAL_REQUIRED_GAMES = 5;
+
 
 function begin_game() {
     game_state = {
@@ -75,6 +77,39 @@ function display_state() {
 }
 function display_outcome(outcome) {
     game_outcome_dom["reward"].textContent = outcome.toString();
+    game_outcome_dom["game_number"].textContent = (game_id+1).toString();
+
+    if (game_id+1 >= TOTAL_REQUIRED_GAMES) {
+        // Show statistics
+        fetch('/get_player_statistics?player_id='+player_id, {
+            method: "GET"
+        })
+            .then((res) => res.json())
+            .catch((error) => {
+                console.log("Error: ", error)
+                alert("Error computing your statistics.");
+                return null;
+             })
+            .then(data => {
+                /* Server will respond with player statistics */
+                console.log(data);
+
+                // Display statistics and hide everything else
+                document.getElementById("game-statistics").style.display = "block";
+                for (key in game_dom) {
+                    game_dom[key].style.display = "none";
+                }
+
+                game_statistics_dom["your-score"].textContent = data["your_average"].toString()
+                game_statistics_dom["player-score"].textContent = data["player_base_average"].toString()
+                game_statistics_dom["rank"].textContent = data["your_rank"][0].toString()
+                game_statistics_dom["n_players"].textContent = data["your_rank"][1].toString()
+            })
+            .catch(error => {
+                console.log("Error: ", error)
+                alert("Error. Please reload page.");
+            });
+    }
 }
 
 function send_server(game_state, action) {
