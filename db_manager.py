@@ -85,6 +85,7 @@ def get_player_statistics(player_id):
     # save player-base average to json
     values = get_values()
     values["player_base_average"] = player_base_average
+    values["finishing_players"] += 1
     save_values(values)
 
     # Compute player average

@@ -25,13 +25,20 @@ window.onload = () => {
     game.style.display = "none";
 
     // Game state DOM
-    game_state_dom["day"] = document.getElementById("game-state-day");
+    game_state_dom["day"] = {}
+    game_state_dom["day"]["text"] = document.getElementById("game-state-day-text");
+    game_state_dom["day"]["days_left"] = document.getElementById("game-state-day-days-left");
     game_state_dom["price"] = document.getElementById("game-state-price");
     game_state_dom["other_selled"] = document.getElementById("game-state-other-selled");
     // Game outcome DOM
     game_outcome_dom["reward"] = document.getElementById("game-outcome-reward")
+    game_outcome_dom["penalization"] = document.getElementById("game-outcome-penalization")
     game_outcome_dom["game_number"] = document.getElementById("game-outcome-game-number");
+    game_outcome_dom["game_progress"] = document.getElementById("game-player-progress-filling-div")
+
     document.getElementById("total-games-required").textContent = TOTAL_REQUIRED_GAMES.toString();
+    document.getElementById("total-games-required-2").textContent = TOTAL_REQUIRED_GAMES.toString();
+
     // Statistics DOM
     game_statistics_dom["your-score"] = document.getElementById("game-statistics-your-score");
     game_statistics_dom["player-score"] = document.getElementById("game-statistics-players-score");
@@ -107,6 +114,8 @@ window.onload = () => {
                 game_dom["explanation"].style.display = "none";
                 game_dom["outcome"].style.display = "none";
                 game_dom["action"].style.display = "flex";
+
+                game_outcome_dom["game_progress"].style.display = 'block';
 
                 // Begin game
                 in_tutorial = false;

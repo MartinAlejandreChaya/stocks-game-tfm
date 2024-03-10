@@ -58,7 +58,7 @@ TUTORIAL_DATA = [
             "reward": 19.75,
             "payoff": 9.75
         },
-        "explanation": "Congratulations, you completed the tutorial. Click play again or quit tutorial to proceed to the actual game",
+        "explanation": "You completed the tutorial. If you play <b>" + TOTAL_REQUIRED_GAMES + " games</b> you will be able to see your statistics as a reward. Proceed to the game.",
         "action": "any"
     }
 ]
@@ -111,9 +111,9 @@ function display_tutorial() {
     }
     else  {
         // Display state
-        game_state_dom["day"].textContent = current_step["state"]["day"].toString()
-        game_state_dom["price"].textContent = current_step["state"]["price"].toString()
-        game_state_dom["other_selled"].textContent = current_step["state"]["other_selled"] ? "Yes" : "No"
+        game_state = current_step["state"]
+        display_state()
+
         // Disable unwanted button
         if (current_step["action"] == "sell") {
             // Enable sell, disable dont sell
