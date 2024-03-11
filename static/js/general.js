@@ -2,7 +2,7 @@
 
 // VARIABLES
 let current_user_data = {};
-let player_id, game_id;
+let player_id, game_id = -1;
 let game_state_dom = {}
 let game_dom = {}
 let game_outcome_dom = {}
@@ -21,17 +21,24 @@ window.onload = () => {
     game_dom["outcome"] = document.getElementById("game-outcome");
 
     // Initial visibility
-    user_data.style.display = "block";
+    user_data.style.display = "flex";
     game.style.display = "none";
 
     // Game state DOM
-    game_state_dom["day"] = document.getElementById("game-state-day");
+    game_state_dom["day"] = {}
+    game_state_dom["day"]["text"] = document.getElementById("game-state-day-text");
+    game_state_dom["day"]["days_left"] = document.getElementById("game-state-day-days-left");
     game_state_dom["price"] = document.getElementById("game-state-price");
     game_state_dom["other_selled"] = document.getElementById("game-state-other-selled");
     // Game outcome DOM
     game_outcome_dom["reward"] = document.getElementById("game-outcome-reward")
+    game_outcome_dom["penalization"] = document.getElementById("game-outcome-penalization")
     game_outcome_dom["game_number"] = document.getElementById("game-outcome-game-number");
+    game_outcome_dom["game_progress"] = document.getElementById("game-player-progress-filling-div")
+
     document.getElementById("total-games-required").textContent = TOTAL_REQUIRED_GAMES.toString();
+    document.getElementById("total-games-required-2").textContent = TOTAL_REQUIRED_GAMES.toString();
+
     // Statistics DOM
     game_statistics_dom["your-score"] = document.getElementById("game-statistics-your-score");
     game_statistics_dom["player-score"] = document.getElementById("game-statistics-players-score");
@@ -42,16 +49,16 @@ window.onload = () => {
 
     // Rules hide button
     const rules_hide_button = document.getElementById("rules-hide-button")
-    const rules_p = document.getElementById("rules-p")
+    const rules_div = document.getElementById("rules-div")
     let rules_button_hidden = false;
-    rules_p.style.maxHeight = '300px';
+    rules_div.style.maxHeight = '500px';
     rules_hide_button.addEventListener('click', (ev) => {
         if (rules_button_hidden) {
-            rules_p.style.maxHeight = '300px'
+            rules_div.style.maxHeight = '500px'
             rules_hide_button.textContent = "Hide"
         }
         else {
-            rules_p.style.maxHeight = '0px'
+            rules_div.style.maxHeight = '0px'
             rules_hide_button.textContent = "Show rules"
         }
         rules_button_hidden = !rules_button_hidden;
@@ -107,6 +114,8 @@ window.onload = () => {
                 game_dom["explanation"].style.display = "none";
                 game_dom["outcome"].style.display = "none";
                 game_dom["action"].style.display = "flex";
+
+                game_outcome_dom["game_progress"].style.display = 'block';
 
                 // Begin game
                 in_tutorial = false;

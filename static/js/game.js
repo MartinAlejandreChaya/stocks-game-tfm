@@ -30,7 +30,7 @@ function game_step(action) {
         game_dom["action"].style.display = "none";
         game_dom["outcome"].style.display = "block";
 
-        display_outcome(outcome);
+        display_outcome(outcome, penalization);
     }
     else {
         // Transition to new state
@@ -72,14 +72,50 @@ function get_other_selled() {
     return Math.random() < 1/7;
 }
 
-function display_state() {
-    game_state_dom["day"].textContent = game_state["day"].toString()
-    game_state_dom["price"].textContent = game_state["price"].toString()
-    game_state_dom["other_selled"].textContent = game_state["other_selled"] ? "Yes" : "No"
+
+const num_to_date = {
+    1: "Monday",
+    2: "Tuesday",
+    3: "Wednesday",
+    4: "Thursday",
+    5: "Friday",
+    6: "Saturday",
+    7: "Sunday",
+    8: "Final"
 }
-function display_outcome(outcome) {
-    game_outcome_dom["reward"].textContent = outcome.toString();
+function display_state() {
+    game_state_dom["day"]["text"].textContent = num_to_date[game_state["day"]+1]
+    game_state_dom["day"]["days_left"].textContent = (7-game_state["day"]).toString()
+    game_state_dom["price"].textContent = (Math.round(game_state["price"]*100)/100).toString()
+    game_state_dom["other_selled"].textContent = game_state["other_selled"] ? "Yes" : "No"
+
+    // COLOR
+    game_state_dom["day"]["text"].style.color = interp_color((7 - game_state["day"]) / 7)
+    game_state_dom["day"]["days_left"].style.color = interp_color((7 - game_state["day"]) / 7)
+    game_state_dom["price"].style.color = interp_color(game_state["price"] / 20);
+    game_state_dom["other_selled"].style.color = game_state["other_selled"] ? "green" : "blue";
+}
+
+function interp_color(factor) {
+    // Interpolate RGB components
+    var r = Math.round(50 + 155 * (1-factor));
+    var g = Math.round(50 + 155 * factor);
+
+    // Convert each component to hexadecimal
+    var hexR = r.toString(16).padStart(2, '0');
+    var hexG = g.toString(16).padStart(2, '0');
+    var hexB = (51).toString(16).padStart(2, '0');
+
+    // Concatenate the components and return the result
+    return '#' + hexR + hexG + hexB;
+}
+
+function display_outcome(outcome, penalization) {
+    game_outcome_dom["reward"].textContent = (Math.round(outcome*100)/100).toString();
+    game_outcome_dom["penalization"].style.display = penalization ? "inline" : "none"
     game_outcome_dom["game_number"].textContent = (game_id+1).toString();
+    game_outcome_dom["game_progress"].offsetWidth;
+    game_outcome_dom["game_progress"].style.width = Math.round(100*(game_id + 1) / TOTAL_REQUIRED_GAMES) + '%'
 
     if (game_id+1 >= TOTAL_REQUIRED_GAMES) {
         // Show statistics
@@ -94,7 +130,6 @@ function display_outcome(outcome) {
              })
             .then(data => {
                 /* Server will respond with player statistics */
-                console.log(data);
 
                 // Display statistics and hide everything else
                 document.getElementById("game-statistics").style.display = "block";
@@ -102,8 +137,8 @@ function display_outcome(outcome) {
                     game_dom[key].style.display = "none";
                 }
 
-                game_statistics_dom["your-score"].textContent = data["your_average"].toString()
-                game_statistics_dom["player-score"].textContent = data["player_base_average"].toString()
+                game_statistics_dom["your-score"].textContent = (Math.round(data["your_average"]*100)/100).toString()
+                game_statistics_dom["player-score"].textContent = (Math.round(data["player_base_average"]*100)/100).toString()
                 game_statistics_dom["rank"].textContent = data["your_rank"][0].toString()
                 game_statistics_dom["n_players"].textContent = data["your_rank"][1].toString()
             })

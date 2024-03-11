@@ -46,6 +46,5 @@ def get_player_statistics():
     player_id = int(request.args.get('player_id'))
 
     player_statistics = db_manager.get_player_statistics(player_id)
-    print(player_statistics)
 
-    return jsonify(player_statistics);
+    return jsonify(player_statistics)
