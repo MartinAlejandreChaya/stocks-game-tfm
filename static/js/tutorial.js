@@ -1,66 +1,128 @@
 // TUTORIAL DATA
 TUTORIAL_DATA = [
     {
-        "action": "sell",
-        "explanation": "You should definitely <b>sell</b>",
+        "state": {
+            "price": 0.1,
+            "day": 0,
+            "other_selled": false
+        },
+        "action": "dont sell",
+        "explanation": "You will always start on <b>Monday</b>. You have <b>7 days</b> left to sell your stock. Today you are offered a price of <b>0.1</b>",
+    },
+    {
         "state": {
             "price": 19.99,
-            "day": 0,
-            "other_selled": true
-        }
+            "day": 1,
+            "other_selled": false
+        },
+        "action": "sell",
+        "explanation": "In this example tutorial, I will guide you through the actions by disabling and enabling the <i>Sell</i> and <i>Don't sell</i> buttons.",
     },
     {
         "outcome": {
             "reward": 19.99,
-            "payoff": 9.99
+            "penalization": false
         },
-        "explanation": "You sold your stock for <b>19.99$</b>. Because the initial price of the stock was <b>10$</b>, you gained <b>9.99$</b>",
+        "explanation": "You sold your stock for <b>19.99</b>. The price of the stock is random between 0 and 20, so 19.99 is a good result.",
         "action": "any"
     },
     {
-        "action": "dont sell",
-        "explanation": "You should definitely not sell",
         "state": {
-            "price": 1,
+            "price": 19.99,
             "day": 0,
             "other_selled": false
-        }
-    },
-    {
-        "action": "dont sell",
-        "explanation": "You should still wait. If you sell now you loose 2$",
-        "state": {
-            "price": 8,
-            "day": 1,
-            "other_selled": false
-        }
-    },
-    {
-        "action": "dont sell",
-        "explanation": "Now the price is over 10. But notice your oponent just sold his stock (so you no longer have to worry about selling the same day as him). You still have plenty days left, let's wait for a better price.",
-        "state": {
-            "price": 12,
-            "day": 2,
-            "other_selled": true
-        }
-    },
-    {
+        },
+        "explanation": "Let's play again. Remember, if <i>Other agent sold?</i> is <b>No</b>, you should worry about not colluding (selling on the same day).",
         "action": "sell",
-        "explanation": "Selling the stock today seems appropiate",
-        "state": {
-            "price": 19.75,
-            "day": 3,
-            "other_selled": true
-        }
     },
     {
         "outcome": {
-            "reward": 19.75,
-            "payoff": 9.75
+            "reward": 9.95,
+            "penalization": true
         },
-        "explanation": "You completed the tutorial. If you play <b>" + TOTAL_REQUIRED_GAMES + " games</b> you will be able to see your statistics as a reward. Proceed to the game.",
+        "explanation": "This time you colluded with the other agent. So you both get penalized and receive a reward of <b>19.99</b> divided by 2",
         "action": "any"
-    }
+    },
+    {
+        "state": {
+            "price": 0.1,
+            "day": 0,
+            "other_selled": false
+        },
+        "action": "dont sell",
+        "explanation": "Let's play one last game, then you are on your own.",
+    },
+    {
+        "state": {
+            "price": 0.2,
+            "day": 1,
+            "other_selled": false
+        },
+        "action": "dont sell",
+        "explanation": "We have 6 days left to sell the stock, so we will wait for a better price offer.",
+    },
+    {
+        "state": {
+            "price": 0.1,
+            "day": 2,
+            "other_selled": false
+        },
+        "action": "dont sell",
+        "explanation": "In the real game, the price will actually be random. For this tutorial I have preselected it to demonstrate 😉.",
+    },
+    {
+        "state": {
+                "price": 0.05,
+                "day": 3,
+                "other_selled": false
+        },
+        "action": "dont sell",
+        "explanation": "4 days left",
+    },
+    {
+        "state": {
+                "price": 0.07,
+                "day": 4,
+                "other_selled": false
+        },
+        "action": "dont sell",
+        "explanation": "3 days left.",
+    },
+    {
+        "state": {
+                "price": 0.05,
+                "day": 5,
+                "other_selled": true
+        },
+        "action": "dont sell",
+        "explanation": "You can notice, <i>Other agent sold?</i> is now <b>Yes</b>, meaning the other agent sold his stock in the previous day. You needn't worry about colluding with him anymore for the 2 days you have left.",
+    },
+    {
+        "state": {
+                "price": 0.02,
+                "day": 6,
+                "other_selled": true
+        },
+        "action": "dont sell",
+        "explanation": "If you feel confortable with the rules, you can hide them by clicking on the <u>Hide</u> button at the lower right",
+    },
+    {
+        "state": {
+                "price": 10,
+                "day": 7,
+                "other_selled": true
+        },
+        "action": "sell",
+        "explanation": "You have arrived to the end of the week. You are forced to sell your stock today no matter the price offered.",
+    },
+    {
+        "outcome": {
+            "reward": 10,
+            "penalization": false
+        },
+        "explanation": "Now you are ready to play the actual game. If you play <b>" + TOTAL_REQUIRED_GAMES + " games</b> you will be able to see your statistics as a reward. Proceed to the game.",
+        "action": "any"
+    },
 ]
 
 let tutorial_current_step = -1;
@@ -100,6 +162,8 @@ function display_tutorial() {
         game_dom["state"].style.display = 'none'
         game_dom["action"].style.display = 'none'
         game_dom["outcome"].style.display = 'block';
+
+        display_outcome(current_step["outcome"]["reward"], current_step["outcome"]["penalization"])
 
         if (tutorial_current_step == TUTORIAL_DATA.length - 1) {
             // Final step
