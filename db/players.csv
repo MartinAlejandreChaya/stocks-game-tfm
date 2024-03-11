@@ -1,1 +1,3 @@
 player_id,date,name,age,gender,study_level,study_field_maths,study_field_economy,study_field_social,average_score
+0,2024-03-11 19:08:31.418529,a,10,,undergraduate,False,False,True,16.070476165465877
+1,2024-03-11 19:12:03.588586,a,11,,graduate,False,False,False,9.371552685113368

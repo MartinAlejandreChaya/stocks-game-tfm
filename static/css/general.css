@@ -9,6 +9,7 @@
 
     --link-color: #6d6d76;
     --link-color-hover: #2637d7;
+    --link-color-hover: #2637d7;
 
     --button-color: #329F5B;
     --button-disabled-background: #a5a5a5;
@@ -77,10 +78,21 @@ button:disabled, button[disabled] {
 
 
 /* Rules */
-#rules #rules-p {
+#rules #rules-div {
     overflow-y: hidden;
     transition: max-height 0.25s ease-out;
+}
+#rules #rules-div b {
+    font-size: 0.95em;
+}
+#rules #rules-div #rules-ul {
+    list-style-type: none;
     text-align: justify;
+    margin: 7px 0 0 0;
+    padding: 0 10px;
+}
+#rules #rules-div #rules-ul li {
+    margin: 5px 0;
 }
 #rules #rules-hide-button {
     float: right;

@@ -80,7 +80,8 @@ const num_to_date = {
     4: "Thursday",
     5: "Friday",
     6: "Saturday",
-    7: "Sunday"
+    7: "Sunday",
+    8: "Final"
 }
 function display_state() {
     game_state_dom["day"]["text"].textContent = num_to_date[game_state["day"]+1]
@@ -129,7 +130,6 @@ function display_outcome(outcome, penalization) {
              })
             .then(data => {
                 /* Server will respond with player statistics */
-                console.log(data);
 
                 // Display statistics and hide everything else
                 document.getElementById("game-statistics").style.display = "block";

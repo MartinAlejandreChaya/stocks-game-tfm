@@ -27,20 +27,22 @@
 
         <div class="container">
             <div id="rules">
-                <p id="rules-p">
-                    <b>Game rules</b> <br />
-                    (i) You are given a stock with a value of 10 units and 7 days to sell it. <br>
-                    (ii) Each day you are offered a price in the market, and you can choose to sell
-                    or not sell your stock. <br>
-                    (iii) On the 7th day you are forced to sell the stock no matter the price. <br>
-                    <i> Remarks </i>  <br>
-                    (i) The prices offered at the market follow are random (uniform) between 0 and 20. <br>
-                    (ii) There is another agent playing at the same time, if you both sell the same day
-                    you are penalized and only receive half of the price. <br>
-                    (iii) Any day you will know if the other agent already sold his stock. Otherwise, bare in
-                    mind to try not to choose the same day to sell. <br>
-                    (iv) You must not make any assumptions on the strategy of your oponent (other than he is playing optimally, like you)
-                </p>
+                <div id="rules-div">
+                    <h4>Game rules</h4>
+                    <ul id="rules-ul">
+                        <li><i>(i)</i> You are given <b>7 days</b> to sell a stock 📅.</li>
+                        <li><i>(ii)</i> Each day you are offered a price, and you can choose to <b>sell</b>
+                            or <b>not sell</b> your stock 💵.</li>
+                        <li><i>(iii)</i> After 7 days you are <b>forced to sell</b> the stock no matter the price.</li>
+                        <li><i>(iv)</i> The <b>prices</b> offered at the market follow are <b>random 📈</b> (uniform)
+                            between <b>0</b> and <b>20</b>.</li>
+                        <li><i>(v)</i> There is <b>another agent 👔</b> playing at the same time, with the same price.
+                            If you both sell the same day (<b>collude</b>) you are <b>penalized</b> and only receive
+                            half of the price 🖓.</li>
+                        <li><i>(vi)</i> You will know whether the other agent <b>already sold</b> his stock.</li>
+                        <li><i>(vii)</i> You can assume the other agent will be <b>playing optimally</b> (like you 😉).</li>
+                    </ul>
+                </div>
                 <a id="rules-hide-button">Hide</a>
             </div>
             <div id="user-data">
@@ -94,7 +96,7 @@
                             (<span id="game-state-day-days-left">7</span> days left)</span>
                     </div>
                     <div>
-                        <span>Opponent sold? <b id="game-state-other-selled">yes</b></span>
+                        <span>Other agent sold? <b id="game-state-other-selled">yes</b></span>
                     </div>
                     <div id="game-state-price-container">
                         <span>Price <b id="game-state-price">12.52</b> / 20</span>

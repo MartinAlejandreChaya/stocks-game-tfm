@@ -2,7 +2,7 @@
 
 // VARIABLES
 let current_user_data = {};
-let player_id, game_id;
+let player_id, game_id = -1;
 let game_state_dom = {}
 let game_dom = {}
 let game_outcome_dom = {}
@@ -21,7 +21,7 @@ window.onload = () => {
     game_dom["outcome"] = document.getElementById("game-outcome");
 
     // Initial visibility
-    user_data.style.display = "block";
+    user_data.style.display = "flex";
     game.style.display = "none";
 
     // Game state DOM
@@ -49,16 +49,16 @@ window.onload = () => {
 
     // Rules hide button
     const rules_hide_button = document.getElementById("rules-hide-button")
-    const rules_p = document.getElementById("rules-p")
+    const rules_div = document.getElementById("rules-div")
     let rules_button_hidden = false;
-    rules_p.style.maxHeight = '300px';
+    rules_div.style.maxHeight = '500px';
     rules_hide_button.addEventListener('click', (ev) => {
         if (rules_button_hidden) {
-            rules_p.style.maxHeight = '300px'
+            rules_div.style.maxHeight = '500px'
             rules_hide_button.textContent = "Hide"
         }
         else {
-            rules_p.style.maxHeight = '0px'
+            rules_div.style.maxHeight = '0px'
             rules_hide_button.textContent = "Show rules"
         }
         rules_button_hidden = !rules_button_hidden;
