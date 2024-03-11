@@ -32,7 +32,7 @@ TUTORIAL_DATA = [
             "day": 0,
             "other_selled": false
         },
-        "explanation": "Let's play again. Remember, if <i>Opponent sold?</i> is <b>No</b>, you should worry about not colluding (selling on the same day).",
+        "explanation": "Let's play again. Remember, if <i>Other agent sold?</i> is <b>No</b>, you should worry about not colluding (selling on the same day).",
         "action": "sell",
     },
     {
@@ -40,7 +40,7 @@ TUTORIAL_DATA = [
             "reward": 9.95,
             "penalization": true
         },
-        "explanation": "This time you colluded with your opponent. So the reward of <b>19.99</b> was divided by 2.",
+        "explanation": "This time you colluded with the other agent. So you both get penalized and receive a reward of <b>19.99</b> divided by 2",
         "action": "any"
     },
     {
@@ -95,7 +95,7 @@ TUTORIAL_DATA = [
                 "other_selled": true
         },
         "action": "dont sell",
-        "explanation": "You can notice, <i>Opponent sold?</i> is now <b>Yes</b>, meaning your opponent sold his stock in the previous day. You needn't worry about colluding with him anymore for the 2 days you have left.",
+        "explanation": "You can notice, <i>Other agent sold?</i> is now <b>Yes</b>, meaning the other agent sold his stock in the previous day. You needn't worry about colluding with him anymore for the 2 days you have left.",
     },
     {
         "state": {
