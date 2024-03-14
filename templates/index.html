@@ -47,7 +47,7 @@
                 <a id="rules-hide-button">Hide</a>
             </div>
             <div id="user-data">
-                <div>The data submitted is anonymous.</div>
+                <div><p style="font-size: 0.9em">Your data is anonymized for privacy protection.</p></div>
                 <div id="user-data-age-container">
                     <label for="user-data-age" style="margin-right: 10px;">Age</label>
                     <input id="user-data-age" name="user-data-age" type="number" min="10" max="120">
@@ -97,8 +97,8 @@
                 <div id="game-outcome">
                     <p>Your reward: <b id="game-outcome-reward">10</b><span id="game-outcome-penalization" style="display: none"> - Penalty for colluding with the other agent.</span></p>
                     <div id="game-player-progress">
-                        <p>Games played: <b id="game-outcome-game-number">0</b> / <span id="total-games-required">10</span></p>
-                        <div id="game-player-progress-filling-div" style="display: none"></div>
+                        <p>Games played: <b id="game-outcome-game-number">0</b> / <span class="total-games-required">10</span></p>
+                        <div id="game-player-progress-filling-div"></div>
                     </div>
                     <button id="game-replay-button">Play again</button>
                 </div>
@@ -106,15 +106,25 @@
                     <h4>Your statistics</h4>
                     <p>Average score: <b id="game-statistics-your-score">10.12</b> / 20</p>
                     <p>All players average: <b id="game-statistics-players-score">9.12</b> / 20</p>
-                    <p>Rank: <b id="game-statistics-rank">7</b> / <span id="game-statistics-n-players">20</span></p>
+                    <p>Ranking: top <b id="game-statistics-percentile">92</b> %</p>
+                    <div id="game-statistics-last-20-games" style="display: none">
+                        <h4>Last <span class="total-games-required">10</span> games</h4>
+                        <p>Average score: <b id="game-statistics-last-20-your-score">10.12</b> / 20</p>
+                        <p>Ranking: top <b id="game-statistics-last-20-percentile">92</b> %</p>
+                    </div>
                     <p style="
+                        margin: 10px 0;
                         text-align: justify;
                         color: var(--text-color-secondary);
                         font-size: 0.9em;
-                    ">As a reward for having completing <span id="total-games-required-2">10</span> games, we
-                    have computed your statistics, how did you do? Remember, you must <b>not play again</b>
-                    as it would introduce bias  in the data. Thank you for your collaboration on the project. <br>
+                    ">Thank you for playing <span id="total-games-played-so-far">10</span> games, we have computed your
+                        statistics, how did you do? You can continue playing, but you must <b>not start again</b> as it
+                        would introduce bias  in the data. Thank you for your collaboration on the project. <br>
                         Sincerely, Martín Alejandre Chaya.</p>
+                    <button id="continue-playing-button">Continue playing</button>
+                </div>
+                <div id="game-continue-div" style="display: none; margin-left: 10px">
+                    <p>Your average score: <span id="game-statistics-average-score">13.52</span></p>
                 </div>
             </div>
         </div>

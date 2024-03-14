@@ -44,7 +44,8 @@ def get_data():
 @app.route("/get_player_statistics", methods=["GET"])
 def get_player_statistics():
     player_id = int(request.args.get('player_id'))
+    batch_size = int(request.args.get('batch_size'))
 
-    player_statistics = db_manager.get_player_statistics(player_id)
+    player_statistics = db_manager.get_player_statistics(player_id, batch_size)
 
     return jsonify(player_statistics)

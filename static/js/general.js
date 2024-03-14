@@ -9,6 +9,8 @@ let game_outcome_dom = {}
 let game_statistics_dom = {}
 let in_tutorial = false
 let tutorial_dom = {}
+let player_average_score = -1;
+let game_batches = 0;
 
 window.onload = () => {
 
@@ -35,15 +37,24 @@ window.onload = () => {
     game_outcome_dom["penalization"] = document.getElementById("game-outcome-penalization")
     game_outcome_dom["game_number"] = document.getElementById("game-outcome-game-number");
     game_outcome_dom["game_progress"] = document.getElementById("game-player-progress-filling-div")
+    // Hide player progress during tutorial.
+    document.getElementById("game-player-progress").style.display = 'none';
 
-    document.getElementById("total-games-required").textContent = TOTAL_REQUIRED_GAMES.toString();
-    document.getElementById("total-games-required-2").textContent = TOTAL_REQUIRED_GAMES.toString();
+    for (elem in document.getElementsByClassName("total-games-required")) {
+        elem.textContent = TOTAL_REQUIRED_GAMES.toString();
+    }
+    document.getElementById("total-games-played-so-far").textContent = TOTAL_REQUIRED_GAMES.toString();
 
     // Statistics DOM
+    game_statistics_dom["all"] = document.getElementById("game-statistics")
     game_statistics_dom["your-score"] = document.getElementById("game-statistics-your-score");
     game_statistics_dom["player-score"] = document.getElementById("game-statistics-players-score");
-    game_statistics_dom["rank"] = document.getElementById("game-statistics-rank");
-    game_statistics_dom["n_players"] = document.getElementById("game-statistics-n-players");
+    game_statistics_dom["percentile"] = document.getElementById("game-statistics-percentile");
+    game_statistics_dom["last-20"] = {
+        "average": document.getElementById("game-statistics-last-20-your-score"),
+        "percentile": document.getElementById("game-statistics-last-20-percentile"),
+        "all": document.getElementById("game-statistics-last-20-games")
+    }
     // Tutorial DOM
     tutorial_dom["explanation"] = document.getElementById("game-explanation-text");
 
@@ -114,8 +125,8 @@ window.onload = () => {
                 game_dom["explanation"].style.display = "none";
                 game_dom["outcome"].style.display = "none";
                 game_dom["action"].style.display = "flex";
-
-                game_outcome_dom["game_progress"].style.display = 'block';
+                // Show player progress
+                document.getElementById("game-player-progress").style.display = 'block';
 
                 // Begin game
                 in_tutorial = false;
@@ -150,6 +161,21 @@ window.onload = () => {
 
     tutorial_dom["sell_button"] = game_sell_button;
     tutorial_dom["dont_sell_button"] = game_dont_sell_button;
+
+    const game_continue_playing_button = document.getElementById("continue-playing-button");
+    game_continue_playing_button.addEventListener('click', () => {
+        // Show average score so far
+        document.getElementById("game-continue-div").style.display = 'block'
+        document.getElementById("game-statistics-average-score").textContent = player_average_score;
+
+        // Hide statistics
+        game_statistics_dom["all"].style.display = "none";
+
+        game_batches += 1;
+
+        // Send the player to the game
+        restart_game();
+    })
 }
 
 

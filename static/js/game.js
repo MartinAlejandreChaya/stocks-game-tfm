@@ -1,6 +1,6 @@
 // VARIABLES
 let game_state = {}
-const TOTAL_REQUIRED_GAMES = 10;
+const TOTAL_REQUIRED_GAMES = 20;
 
 
 function begin_game() {
@@ -42,7 +42,7 @@ function game_step(action) {
 
         display_state();
 
-        if (game_state["day"] == 7) {
+        if (game_state["day"]+1 == 7) {
             // Disable dont sell button
             document.getElementById("game-dont-sell-button").disabled = true;
         }
@@ -80,12 +80,12 @@ const num_to_date = {
     4: "Thursday",
     5: "Friday",
     6: "Saturday",
-    7: "Sunday",
-    8: "Final"
+    7: "Sunday"
 }
 function display_state() {
     game_state_dom["day"]["text"].textContent = num_to_date[game_state["day"]+1]
-    game_state_dom["day"]["days_left"].textContent = (7-game_state["day"]).toString()
+    let last_day_string = game_state["day"]+1 == 7 ? ' (Last day)' : ''
+    game_state_dom["day"]["days_left"].textContent = (7-game_state["day"]).toString() + last_day_string
     game_state_dom["price"].textContent = (Math.round(game_state["price"]*100)/100).toString()
     game_state_dom["other_selled"].textContent = game_state["other_selled"] ? "Yes" : "No"
 
@@ -113,39 +113,13 @@ function interp_color(factor) {
 function display_outcome(outcome, penalization) {
     game_outcome_dom["reward"].textContent = (Math.round(outcome*100)/100).toString();
     game_outcome_dom["penalization"].style.display = penalization ? "inline" : "none"
-    game_outcome_dom["game_number"].textContent = (game_id+1).toString();
+    game_outcome_dom["game_number"].textContent = (game_id+1 - TOTAL_REQUIRED_GAMES * game_batches).toString();
     game_outcome_dom["game_progress"].offsetWidth;
-    game_outcome_dom["game_progress"].style.width = Math.round(100*(game_id + 1) / TOTAL_REQUIRED_GAMES) + '%'
+    game_outcome_dom["game_progress"].style.width = Math.round(100*(game_id + 1 - TOTAL_REQUIRED_GAMES * game_batches) / TOTAL_REQUIRED_GAMES) + '%'
 
-    if (game_id+1 >= TOTAL_REQUIRED_GAMES) {
+    if ((game_id+1 - TOTAL_REQUIRED_GAMES * game_batches) >= TOTAL_REQUIRED_GAMES) {
         // Show statistics
-        fetch('/get_player_statistics?player_id='+player_id, {
-            method: "GET"
-        })
-            .then((res) => res.json())
-            .catch((error) => {
-                console.log("Error: ", error)
-                alert("Error computing your statistics.");
-                return null;
-             })
-            .then(data => {
-                /* Server will respond with player statistics */
-
-                // Display statistics and hide everything else
-                document.getElementById("game-statistics").style.display = "block";
-                for (key in game_dom) {
-                    game_dom[key].style.display = "none";
-                }
-
-                game_statistics_dom["your-score"].textContent = (Math.round(data["your_average"]*100)/100).toString()
-                game_statistics_dom["player-score"].textContent = (Math.round(data["player_base_average"]*100)/100).toString()
-                game_statistics_dom["rank"].textContent = data["your_rank"][0].toString()
-                game_statistics_dom["n_players"].textContent = data["your_rank"][1].toString()
-            })
-            .catch(error => {
-                console.log("Error: ", error)
-                alert("Error. Please reload page.");
-            });
+        showStatistics();
     }
 }
 
@@ -166,4 +140,43 @@ function send_server(game_state, action, outcome) {
         body: JSON.stringify(game_move),
         headers: {"Content-Type": "application/json"},
     })
+}
+
+function showStatistics() {
+    fetch('/get_player_statistics?batch_size=' + TOTAL_REQUIRED_GAMES + '&player_id=' + player_id, {
+            method: "GET"
+        })
+        .then((res) => res.json())
+        .catch((error) => {
+            console.log("Error: ", error)
+            alert("Error computing your statistics.");
+            return null;
+         })
+        .then(data => {
+            /* Server will respond with player statistics */
+
+            // Display statistics and hide everything else
+            game_statistics_dom["all"].style.display = "block";
+            for (key in game_dom) {
+                game_dom[key].style.display = "none";
+            }
+            document.getElementById("game-continue-div").style.display = 'none'
+
+
+            player_average_score = Math.round(data["your_average"]*100)/100;
+
+            game_statistics_dom["your-score"].textContent = player_average_score.toString()
+            game_statistics_dom["player-score"].textContent = (Math.round(data["player_base_average"]*100)/100).toString()
+            game_statistics_dom["percentile"].textContent = Math.round(data["your_percentile"]).toString()
+
+            if (game_batches != 0) {
+                game_statistics_dom["last-20"]["all"].style.display = "block"
+                game_statistics_dom["last-20"]["average"].textContent = (Math.round(data["last_20"]["average"]*100)/100).toString();
+                game_statistics_dom["last-20"]["percentile"].textContent = Math.round(data["last_20"]["percentile"]).toString();
+            }
+        })
+        .catch(error => {
+            console.log("Error: ", error)
+            alert("Error. Please reload page.");
+        });
 }
