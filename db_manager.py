@@ -2,6 +2,7 @@ import json
 from csv import DictWriter
 from datetime import datetime
 import pandas as pd
+import numpy as np
 
 VALUES_PATH = "db/values.json"
 
@@ -11,10 +12,8 @@ DB_GAMES_FIELD_NAMES = ["player_id", "game_id", "state_day",
                         "action", "result"]
 
 DB_PLAYERS_PATH = "db/players.csv"
-DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "name", "age",
-                          "gender", "study_level", "study_field_maths",
-                          "study_field_economy", "study_field_social",
-                          "average_score"]
+DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "age", "gender", "study_level",
+                          "study_field", "average_score"]
 
 
 def new_game(game_data):
@@ -77,7 +76,7 @@ def get_master_user_data():
     return get_values()
 
 
-def get_player_statistics(player_id):
+def get_player_statistics(player_id, batch_size):
     df = pd.read_csv(DB_GAMES_PATH, header=0, names=DB_GAMES_FIELD_NAMES, index_col = False)
 
     player_base_average = df[df["action"] == True]["result"].mean()
@@ -89,24 +88,34 @@ def get_player_statistics(player_id):
     save_values(values)
 
     # Compute player average
-    player_average = df[df["player_id"] == player_id][df["action"] == True]["result"].mean()
+    df2 = df[df["player_id"] == player_id].loc[df["action"] == True]
+    player_average = df2["result"].mean()
+    player_batch_average = df2["result"].tail(batch_size).mean()
 
     # Compute player rank
-    df = pd.read_csv(DB_PLAYERS_PATH, header=0, names=DB_PLAYERS_FIELD_NAMES, index_col=False);
+    df = pd.read_csv(DB_PLAYERS_PATH, header=0, names=DB_PLAYERS_FIELD_NAMES,
+                     index_col=False,  dtype={"average_score": np.float64}, encoding='latin1')
     df.loc[df["player_id"] == player_id, "average_score"] = player_average
     # Save player average score
     df.to_csv(DB_PLAYERS_PATH, index=False)
 
+
     # Calculate the rank of your score
     player_rank = 1
+    player_batch_rank = 1
     n_players = 0
     for sc in df["average_score"]:
         if (sc > player_average): player_rank += 1
+        if (sc > player_batch_average): player_batch_rank += 1
         if (sc != -1): n_players += 1
 
 
     return {
         "player_base_average": player_base_average,
         "your_average": player_average,
-        "your_rank": [player_rank, n_players]
+        "your_percentile": (100. * player_rank / n_players),
+        "last_20": {
+            "average": player_batch_average,
+            "percentile": (100. * player_batch_rank / n_players)
+        }
     }

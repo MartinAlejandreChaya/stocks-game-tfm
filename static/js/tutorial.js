@@ -7,7 +7,7 @@ TUTORIAL_DATA = [
             "other_selled": false
         },
         "action": "dont sell",
-        "explanation": "You will always start on <b>Monday</b>. You have <b>7 days</b> left to sell your stock. Today you are offered a price of <b>0.1</b>",
+        "explanation": "You will always start on <b>Monday</b>. You have <b>7 days</b> left to sell your stock. Today you are offered a price of <b>0.1</b>. Let's play <i>Don't sell</i>.",
     },
     {
         "state": {
@@ -23,24 +23,24 @@ TUTORIAL_DATA = [
             "reward": 19.99,
             "penalization": false
         },
-        "explanation": "You sold your stock for <b>19.99</b>. The price of the stock is random between 0 and 20, so 19.99 is a good result.",
+        "explanation": "You sold your stock for <b>19.99</b>, and your opponent didn't sell his stock on the same day, therefore your reward is <b>19.99</b>",
         "action": "any"
     },
     {
         "state": {
-            "price": 19.99,
+            "price": 19.98,
             "day": 0,
             "other_selled": false
         },
-        "explanation": "Let's play again. Remember, if <i>Other agent sold?</i> is <b>No</b>, you should worry about not colluding (selling on the same day).",
+        "explanation": "Let's play again. Today the price is <b>19.98</b>. We will select <i>Sell</i>.",
         "action": "sell",
     },
     {
         "outcome": {
-            "reward": 9.95,
+            "reward": 9.99,
             "penalization": true
         },
-        "explanation": "This time you colluded with the other agent. So you both get penalized and receive a reward of <b>19.99</b> divided by 2",
+        "explanation": "This time you colluded with the other agent. So you both get penalized and receive a reward of <b>9.98</b> (19.99 divided by 2)",
         "action": "any"
     },
     {
@@ -59,7 +59,7 @@ TUTORIAL_DATA = [
             "other_selled": false
         },
         "action": "dont sell",
-        "explanation": "We have 6 days left to sell the stock, so we will wait for a better price offer.",
+        "explanation": "You have 6 days left to sell the stock.",
     },
     {
         "state": {
@@ -68,7 +68,7 @@ TUTORIAL_DATA = [
             "other_selled": false
         },
         "action": "dont sell",
-        "explanation": "In the real game, the price will actually be random. For this tutorial I have preselected it to demonstrate 😉.",
+        "explanation": "5 days left. In the real game, the price will actually be random. For this tutorial I have preselected it to demonstrate 😉.",
     },
     {
         "state": {
@@ -77,16 +77,16 @@ TUTORIAL_DATA = [
                 "other_selled": false
         },
         "action": "dont sell",
-        "explanation": "4 days left",
+        "explanation": "4 days left. Remember you can hide the rules by pressing the <u>Hide</u> button at the lower right.",
     },
     {
         "state": {
                 "price": 0.07,
                 "day": 4,
-                "other_selled": false
+                "other_selled": true
         },
         "action": "dont sell",
-        "explanation": "3 days left.",
+        "explanation": "You can notice, <i>Other agent sold?</i> is now <b>Yes</b>, meaning the other agent sold his stock in the previous day. You needn't worry about colluding with him anymore for the remaining game.",
     },
     {
         "state": {
@@ -95,21 +95,12 @@ TUTORIAL_DATA = [
                 "other_selled": true
         },
         "action": "dont sell",
-        "explanation": "You can notice, <i>Other agent sold?</i> is now <b>Yes</b>, meaning the other agent sold his stock in the previous day. You needn't worry about colluding with him anymore for the 2 days you have left.",
+        "explanation": "2 days left",
     },
     {
         "state": {
-                "price": 0.02,
+                "price": 12,
                 "day": 6,
-                "other_selled": true
-        },
-        "action": "dont sell",
-        "explanation": "If you feel confortable with the rules, you can hide them by clicking on the <u>Hide</u> button at the lower right",
-    },
-    {
-        "state": {
-                "price": 10,
-                "day": 7,
                 "other_selled": true
         },
         "action": "sell",
@@ -117,10 +108,10 @@ TUTORIAL_DATA = [
     },
     {
         "outcome": {
-            "reward": 10,
+            "reward": 12,
             "penalization": false
         },
-        "explanation": "Now you are ready to play the actual game. If you play <b>" + TOTAL_REQUIRED_GAMES + " games</b> you will be able to see your statistics as a reward. Proceed to the game.",
+        "explanation": "You reward is <b>12</b>. Now you are ready to play the actual game. If you play <b>" + TOTAL_REQUIRED_GAMES + " games</b> you will be able to see your statistics.",
         "action": "any"
     },
 ]

@@ -9,6 +9,8 @@ let game_outcome_dom = {}
 let game_statistics_dom = {}
 let in_tutorial = false
 let tutorial_dom = {}
+let player_average_score = -1;
+let game_batches = 0;
 
 window.onload = () => {
 
@@ -35,15 +37,24 @@ window.onload = () => {
     game_outcome_dom["penalization"] = document.getElementById("game-outcome-penalization")
     game_outcome_dom["game_number"] = document.getElementById("game-outcome-game-number");
     game_outcome_dom["game_progress"] = document.getElementById("game-player-progress-filling-div")
+    // Hide player progress during tutorial.
+    document.getElementById("game-player-progress").style.display = 'none';
 
-    document.getElementById("total-games-required").textContent = TOTAL_REQUIRED_GAMES.toString();
-    document.getElementById("total-games-required-2").textContent = TOTAL_REQUIRED_GAMES.toString();
+    for (elem in document.getElementsByClassName("total-games-required")) {
+        elem.textContent = TOTAL_REQUIRED_GAMES.toString();
+    }
+    document.getElementById("total-games-played-so-far").textContent = TOTAL_REQUIRED_GAMES.toString();
 
     // Statistics DOM
+    game_statistics_dom["all"] = document.getElementById("game-statistics")
     game_statistics_dom["your-score"] = document.getElementById("game-statistics-your-score");
     game_statistics_dom["player-score"] = document.getElementById("game-statistics-players-score");
-    game_statistics_dom["rank"] = document.getElementById("game-statistics-rank");
-    game_statistics_dom["n_players"] = document.getElementById("game-statistics-n-players");
+    game_statistics_dom["percentile"] = document.getElementById("game-statistics-percentile");
+    game_statistics_dom["last-20"] = {
+        "average": document.getElementById("game-statistics-last-20-your-score"),
+        "percentile": document.getElementById("game-statistics-last-20-percentile"),
+        "all": document.getElementById("game-statistics-last-20-games")
+    }
     // Tutorial DOM
     tutorial_dom["explanation"] = document.getElementById("game-explanation-text");
 
@@ -114,8 +125,8 @@ window.onload = () => {
                 game_dom["explanation"].style.display = "none";
                 game_dom["outcome"].style.display = "none";
                 game_dom["action"].style.display = "flex";
-
-                game_outcome_dom["game_progress"].style.display = 'block';
+                // Show player progress
+                document.getElementById("game-player-progress").style.display = 'block';
 
                 // Begin game
                 in_tutorial = false;
@@ -150,17 +161,25 @@ window.onload = () => {
 
     tutorial_dom["sell_button"] = game_sell_button;
     tutorial_dom["dont_sell_button"] = game_dont_sell_button;
+
+    const game_continue_playing_button = document.getElementById("continue-playing-button");
+    game_continue_playing_button.addEventListener('click', () => {
+        // Show average score so far
+        document.getElementById("game-continue-div").style.display = 'block'
+        document.getElementById("game-statistics-average-score").textContent = player_average_score;
+
+        // Hide statistics
+        game_statistics_dom["all"].style.display = "none";
+
+        game_batches += 1;
+
+        // Send the player to the game
+        restart_game();
+    })
 }
 
 
 function verify_user_data() {
-    // Name not taken?
-    name = document.getElementById("user-data-name").value;
-    name = name.trim()
-    if (name.length <= 0) {
-        return {"error": "Name field can't be empty"}
-    }
-
     // Age > 10, Age < 120
     age = document.getElementById("user-data-age").value;
     if (age < 10 || age > 120) {
@@ -176,15 +195,19 @@ function verify_user_data() {
         return {"error": "You must introduce your current or past highest study level."}
     }
 
+    // Study field
+    study_field = document.getElementById("user-data-study-field").value;
+    if (study_field.length > 150) {
+        return {"error": "The study field should be shorter than 150 characters."}
+    }
+
     // All data is good
     return {
         "name": name,
         "age": age,
         "gender": gender,
         "study_level": study_level,
-        "study_field_maths":  document.getElementById("study-field-maths").checked,
-        "study_field_economy": document.getElementById("study-field-economy").checked,
-        "study_field_social": document.getElementById("study-field-social").checked,
+        "study_field":  study_field,
         "error": false,
     };
 }
