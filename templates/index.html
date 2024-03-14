@@ -34,19 +34,20 @@
                         <li><i>(ii)</i> Each day you are offered a price, and you can choose to <b>sell</b>
                             or <b>not sell</b> your stock 💵.</li>
                         <li><i>(iii)</i> After 7 days you are <b>forced to sell</b> the stock no matter the price.</li>
-                        <li><i>(iv)</i> The <b>prices</b> offered at the market follow are <b>random 📈</b> (uniform)
-                            between <b>0</b> and <b>20</b>.</li>
+                        <li><i>(iv)</i> The <b>prices</b> offered at the market are randomly distributed 📈 between
+                            <b>0</b> and <b>20</b>.</li>
                         <li><i>(v)</i> There is <b>another agent 👔</b> playing at the same time, with the same price.
                             If you both sell the same day (<b>collude</b>) you are both <b>penalized</b> and only receive
-                            half of the price 🖓.</li>
-                        <li><i>(vi)</i> You will know whether the other agent <b>already sold</b> his stock.</li>
-                        <li><i>(vii)</i> You can assume the other agent will be <b>playing optimally</b> (like you 😉).</li>
+                            half of the price.</li>
+                        <li><i>(vi)</i> When you sell your stock, the game ends. If the other agent sells his stock you
+                        continue playing alone.</li>
+                        <li><i>(vii)</i> You will know whether the other agent <b>already sold</b> his stock 👀.</li>
                     </ul>
                 </div>
                 <a id="rules-hide-button">Hide</a>
             </div>
             <div id="user-data">
-                <input id="user-data-name" placeholder="Nickname" type="text">
+                <div>The data submitted is anonymous.</div>
                 <div id="user-data-age-container">
                     <label for="user-data-age" style="margin-right: 10px;">Age</label>
                     <input id="user-data-age" name="user-data-age" type="number" min="10" max="120">
@@ -64,25 +65,8 @@
                     <option value="master">Postgraduate (master)</option>
                     <option value="phd">Postgraduate (PhD)</option>
                 </select>
-                <div id="user-data-study-field-container">
-                    <legend>
-                        Select the fields you have studied (if any):
-                    </legend>
-                    <div id="user-data-study-field">
-                        <div>
-                            <input id="study-field-maths" name="study-field-maths" type="checkbox">
-                            <label for="study-field-maths">Mathematics / Statistics</label>
-                        </div>
-                        <div>
-                            <input id="study-field-economy" name="study-field-economy" type="checkbox">
-                            <label for="study-field-economy">Economy</label>
-                        </div>
-                        <div>
-                            <input id="study-field-social" name="study-field-social" type="checkbox">
-                            <label for="study-field-social">Social studies</label>
-                        </div>
-                    </div>
-                </div>
+                <input id="user-data-study-field" type="text" maxlength="150"
+                    placeholder="Your area of studies (name of your degree) if any.">
                 <div id="user-data-buttons">
                     <button id="tutorial-button">Tutorial</button>
                 </div>

@@ -154,13 +154,6 @@ window.onload = () => {
 
 
 function verify_user_data() {
-    // Name not taken?
-    name = document.getElementById("user-data-name").value;
-    name = name.trim()
-    if (name.length <= 0) {
-        return {"error": "Name field can't be empty"}
-    }
-
     // Age > 10, Age < 120
     age = document.getElementById("user-data-age").value;
     if (age < 10 || age > 120) {
@@ -176,15 +169,19 @@ function verify_user_data() {
         return {"error": "You must introduce your current or past highest study level."}
     }
 
+    // Study field
+    study_field = document.getElementById("user-data-study-field").value;
+    if (study_field.length > 150) {
+        return {"error": "The study field should be shorter than 150 characters."}
+    }
+
     // All data is good
     return {
         "name": name,
         "age": age,
         "gender": gender,
         "study_level": study_level,
-        "study_field_maths":  document.getElementById("study-field-maths").checked,
-        "study_field_economy": document.getElementById("study-field-economy").checked,
-        "study_field_social": document.getElementById("study-field-social").checked,
+        "study_field":  study_field,
         "error": false,
     };
 }

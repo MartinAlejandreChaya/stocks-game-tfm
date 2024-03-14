@@ -2,6 +2,7 @@ import json
 from csv import DictWriter
 from datetime import datetime
 import pandas as pd
+import numpy as np
 
 VALUES_PATH = "db/values.json"
 
@@ -11,10 +12,8 @@ DB_GAMES_FIELD_NAMES = ["player_id", "game_id", "state_day",
                         "action", "result"]
 
 DB_PLAYERS_PATH = "db/players.csv"
-DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "name", "age",
-                          "gender", "study_level", "study_field_maths",
-                          "study_field_economy", "study_field_social",
-                          "average_score"]
+DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "age", "gender", "study_level",
+                          "study_field", "average_score"]
 
 
 def new_game(game_data):
@@ -89,10 +88,11 @@ def get_player_statistics(player_id):
     save_values(values)
 
     # Compute player average
-    player_average = df[df["player_id"] == player_id][df["action"] == True]["result"].mean()
+    player_average = df[df["player_id"] == player_id].loc[df["action"] == True]["result"].mean()
 
     # Compute player rank
-    df = pd.read_csv(DB_PLAYERS_PATH, header=0, names=DB_PLAYERS_FIELD_NAMES, index_col=False);
+    df = pd.read_csv(DB_PLAYERS_PATH, header=0, names=DB_PLAYERS_FIELD_NAMES,
+                     index_col=False,  dtype={"average_score": np.float64}, encoding='latin1')
     df.loc[df["player_id"] == player_id, "average_score"] = player_average
     # Save player average score
     df.to_csv(DB_PLAYERS_PATH, index=False)

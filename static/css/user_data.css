@@ -43,23 +43,9 @@
     justify-content: space-evenly;
 }
 
-#user-data #user-data-buttons #play-button, #tutorial-button {
+#user-data #user-data-buttons #tutorial-button {
     width: 45%;
     max-width: 120px;
     padding: 10px 2px;
-}
-
-#user-data #user-data-study-field {
-    width: fit-content;
-    margin-left: 20px;
-    font-size: 0.9em;
-    color: var(--text-color-secondary);
-}
-#user-data #user-data-study-field > div {
-    display: flex;
-}
-
-#user-data #user-data-study-field > div > input:checked + label {
-    color: var(--text-color-primary);
 }
 
