@@ -19,11 +19,7 @@ def index():
 def handle_play_request():
     user_data = request.get_json()
 
-    response = {
-        "player_id": db_manager.new_player(user_data),
-    }
-
-    return jsonify(response)
+    return jsonify(db_manager.new_player(user_data))
 
 
 @app.route("/game_move", methods=['POST'])

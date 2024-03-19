@@ -22,7 +22,7 @@ function game_step(action) {
     // Take action
     if (action == "sell") {
         // Compute outcome
-        penalization = !game_state["other_selled"] && get_other_selled();
+        penalization = !game_state["other_selled"] && get_other_selled(game_state);
         outcome = game_state["price"] / (penalization ? 2 : 1);
 
         // Show outcome, hide rest of game
@@ -37,7 +37,7 @@ function game_step(action) {
         game_state = {
             "day": game_state["day"] + 1,
             "price": get_random_price(),
-            "other_selled": game_state["other_selled"] || get_other_selled()
+            "other_selled": game_state["other_selled"] || get_other_selled(game_state)
         }
 
         display_state();
@@ -68,8 +68,44 @@ function restart_game() {
 function get_random_price() {
     return Math.random() * 20;
 }
-function get_other_selled() {
-    return Math.random() < 1/7;
+
+
+// Opponents
+const e_f = [10., 13.33333333, 15., 16., 16.66666667, 17.14285714, 17.5, 17.77777778, 18., 18.18181818]
+const e_w = [5., 7.30139615, 9.07098029, 10.33719828, 11.28442173, 12.02239912, 12.61603245, 13.10569558, 13.51778381, 13.87030185]
+
+function get_other_selled(game_state) {
+
+    if (game_state["day"]+1 == 7)
+        return true;
+
+    // Optimal agent
+    if (oponent_id == 0) {
+
+        // Expected outcome of not selling when the other sold
+        f = e_f[7 - game_state["day"] - 1]
+
+        if (game_state["other_selled"])
+            return price > f;
+
+        // Expected outcome of not selling if the other didn't sell
+        w = e_w[7 - game_state["day"] - 1]
+
+        price = game_state["price"]
+
+        if (price < w)
+            return false
+
+        prob_sell = (price - w) / (f - w + price/2)
+
+        return Math.random() < prob_sell
+    }
+
+    // Smooth impatient
+    else {
+        prob = Math.max(0, (game_state["price"]-10)/10)
+        return Math.random() < prob
+    }
 }
 
 

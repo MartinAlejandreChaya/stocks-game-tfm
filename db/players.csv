@@ -1,1 +1,1 @@
-player_id,date,age,gender,study_level,study_field,average_score
+player_id,date,age,gender,study_level,study_field,oponent_id,average_score
