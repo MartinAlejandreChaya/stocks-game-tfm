@@ -3,6 +3,7 @@
 // VARIABLES
 let current_user_data = {};
 let player_id, game_id = -1;
+let oponent_id = 1;
 let game_state_dom = {}
 let game_dom = {}
 let game_outcome_dom = {}
@@ -40,8 +41,9 @@ window.onload = () => {
     // Hide player progress during tutorial.
     document.getElementById("game-player-progress").style.display = 'none';
 
-    for (elem in document.getElementsByClassName("total-games-required")) {
-        elem.textContent = TOTAL_REQUIRED_GAMES.toString();
+    const elems = document.getElementsByClassName("total-games-required");
+    for (let i=0; i<elems.length; i++) {
+        elems[i].textContent = TOTAL_REQUIRED_GAMES.toString();
     }
     document.getElementById("total-games-played-so-far").textContent = TOTAL_REQUIRED_GAMES.toString();
 
@@ -131,6 +133,7 @@ window.onload = () => {
                 // Begin game
                 in_tutorial = false;
                 player_id = data["player_id"]
+                oponent_id = data["oponent_id"]
                 game_id = 0
                 begin_game()
             })

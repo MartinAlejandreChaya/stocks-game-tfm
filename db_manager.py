@@ -13,7 +13,7 @@ DB_GAMES_FIELD_NAMES = ["player_id", "game_id", "state_day",
 
 DB_PLAYERS_PATH = "db/players.csv"
 DB_PLAYERS_FIELD_NAMES = ["player_id", "date", "age", "gender", "study_level",
-                          "study_field", "average_score"]
+                          "study_field", "oponent_id", "average_score"]
 
 
 def new_game(game_data):
@@ -32,12 +32,16 @@ def new_player(player_data):
 
         player_data["date"] = datetime.now();
         player_data["player_id"] = get_new_player_id();
+        player_data["oponent_id"] = int(np.round(np.random.rand()))
         player_data["average_score"] = -1;
 
         dictwriter_object.writerow(player_data)
         f_object.close()
 
-    return player_data["player_id"]
+    return {
+        "player_id": player_data["player_id"],
+        "oponent_id": player_data["oponent_id"]
+    }
 
 
 def increment_n_games():
