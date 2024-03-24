@@ -2,12 +2,18 @@
 let game_state = {}
 const TOTAL_REQUIRED_GAMES = 20;
 
+let random_sell_day;
 
 function begin_game() {
     game_state = {
         "day": 0,
         "price": get_random_price(),
         "other_selled": false
+    }
+
+    // Random agent
+    if (oponent_id == 2) {
+        random_sell_day = Math.floor(Math.random() * 7);
     }
 
     display_state();
@@ -102,9 +108,14 @@ function get_other_selled(game_state) {
     }
 
     // Smooth impatient
-    else {
+    else if (oponent_id == 1) {
         prob = Math.max(0, (game_state["price"]-10)/10)
         return Math.random() < prob
+    }
+
+    // Random
+    else {
+        return game_state["day"] == random_sell_day;
     }
 }
 
@@ -203,16 +214,31 @@ function showStatistics() {
 
             game_statistics_dom["your-score"].textContent = player_average_score.toString()
             game_statistics_dom["player-score"].textContent = (Math.round(data["player_base_average"]*100)/100).toString()
-            game_statistics_dom["percentile"].textContent = Math.round(data["your_percentile"]).toString()
+            showPercentile(game_statistics_dom["percentile"], game_statistics_dom["text-top"], Math.round(data["your_percentile"]));
 
             if (game_batches != 0) {
                 game_statistics_dom["last-20"]["all"].style.display = "block"
                 game_statistics_dom["last-20"]["average"].textContent = (Math.round(data["last_20"]["average"]*100)/100).toString();
-                game_statistics_dom["last-20"]["percentile"].textContent = Math.round(data["last_20"]["percentile"]).toString();
+                showPercentile(game_statistics_dom["last-20"]["percentile"], game_statistics_dom["last-20"]["text-top"], Math.round(data["last_20"]["percentile"]))
             }
         })
         .catch(error => {
             console.log("Error: ", error)
             alert("Error. Please reload page.");
         });
+}
+
+
+function showPercentile(elem, textTop, perc) {
+    if (perc <= 50) {
+        // TOP
+        textTop.textContent = "top";
+        elem.textContent = perc.toString();
+    }
+    else {
+        // BOTTOM
+        textTop.textContent = "bottom";
+        elem.textContent = (100-perc).toString();
+    }
+
 }
