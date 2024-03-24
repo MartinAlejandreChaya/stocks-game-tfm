@@ -131,6 +131,8 @@ window.onload = () => {
                 game_dom["action"].style.display = "flex";
                 // Show player progress
                 document.getElementById("game-player-progress").style.display = 'block';
+                // Change continue tutorial to play again
+                document.getElementById("game-replay-button").textContent = "Play again";
 
                 // Begin game
                 in_tutorial = false;
