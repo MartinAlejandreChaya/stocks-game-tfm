@@ -107,7 +107,7 @@ def get_player_statistics(player_id, batch_size):
     # Calculate the rank of your score
     player_rank = 1
     player_batch_rank = 1
-    n_players = 0
+    n_players = 1
     for sc in df["average_score"]:
         if (sc != -1 and sc != player_average):
             if (sc > player_average): player_rank += 1
