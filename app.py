@@ -44,4 +44,6 @@ def get_player_statistics():
 
     player_statistics = db_manager.get_player_statistics(player_id, batch_size)
 
+    print(player_statistics)
+
     return jsonify(player_statistics)

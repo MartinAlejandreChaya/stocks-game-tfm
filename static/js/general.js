@@ -52,9 +52,11 @@ window.onload = () => {
     game_statistics_dom["your-score"] = document.getElementById("game-statistics-your-score");
     game_statistics_dom["player-score"] = document.getElementById("game-statistics-players-score");
     game_statistics_dom["percentile"] = document.getElementById("game-statistics-percentile");
+    game_statistics_dom["text-top"] = document.getElementById("game-statistics-text-top");
     game_statistics_dom["last-20"] = {
         "average": document.getElementById("game-statistics-last-20-your-score"),
         "percentile": document.getElementById("game-statistics-last-20-percentile"),
+        "text-top": document.getElementById("game-statistics-last-20-text-top"),
         "all": document.getElementById("game-statistics-last-20-games")
     }
     // Tutorial DOM

@@ -40,7 +40,7 @@ TUTORIAL_DATA = [
             "reward": 9.99,
             "penalization": true
         },
-        "explanation": "This time you colluded with the other agent. So you both get penalized and receive a reward of <b>9.98</b> (19.99 divided by 2)",
+        "explanation": "This time you colluded with the other agent. So you both get penalized and receive a reward of <b>9.99</b> (19.98 divided by 2)",
         "action": "any"
     },
     {

@@ -30,10 +30,10 @@ def new_player(player_data):
     with open(DB_PLAYERS_PATH, 'a', newline='') as f_object:
         dictwriter_object = DictWriter(f_object, fieldnames=DB_PLAYERS_FIELD_NAMES, extrasaction='ignore')
 
-        player_data["date"] = datetime.now();
-        player_data["player_id"] = get_new_player_id();
-        player_data["oponent_id"] = int(np.round(np.random.rand()))
-        player_data["average_score"] = -1;
+        player_data["date"] = datetime.now()
+        player_data["player_id"] = get_new_player_id()
+        player_data["oponent_id"] = np.random.randint(0, 3)
+        player_data["average_score"] = -1
 
         dictwriter_object.writerow(player_data)
         f_object.close()
@@ -95,6 +95,8 @@ def get_player_statistics(player_id, batch_size):
     df2 = df[df["player_id"] == player_id].loc[df["action"] == True]
     player_average = df2["result"].mean()
     player_batch_average = df2["result"].tail(batch_size).mean()
+    print("Average: ", player_average)
+    print("Batch-average: ", player_batch_average)
 
     # Compute player rank
     df = pd.read_csv(DB_PLAYERS_PATH, header=0, names=DB_PLAYERS_FIELD_NAMES,
@@ -109,10 +111,10 @@ def get_player_statistics(player_id, batch_size):
     player_batch_rank = 1
     n_players = 0
     for sc in df["average_score"]:
-        if (sc > player_average): player_rank += 1
-        if (sc > player_batch_average): player_batch_rank += 1
-        if (sc != -1): n_players += 1
-
+        if (sc != -1 and sc != player_average):
+            if (sc > player_average): player_rank += 1
+            if (sc > player_batch_average): player_batch_rank += 1
+            n_players += 1
 
     return {
         "player_base_average": player_base_average,
