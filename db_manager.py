@@ -95,8 +95,6 @@ def get_player_statistics(player_id, batch_size):
     df2 = df[df["player_id"] == player_id].loc[df["action"] == True]
     player_average = df2["result"].mean()
     player_batch_average = df2["result"].tail(batch_size).mean()
-    print("Average: ", player_average)
-    print("Batch-average: ", player_batch_average)
 
     # Compute player rank
     df = pd.read_csv(DB_PLAYERS_PATH, header=0, names=DB_PLAYERS_FIELD_NAMES,
