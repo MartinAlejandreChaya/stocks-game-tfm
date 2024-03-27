@@ -54,7 +54,7 @@ def get_master_user_data():
 
 def get_player_statistics(player_id, batch_size):
     with conn.cursor() as cur:
-        cur.execute("SELECT AVG(result) FROM games")
+        cur.execute("SELECT AVG(result) FROM games WHERE action = TRUE")
         player_base_average = cur.fetchone()[0]
 
         cur.execute("SELECT AVG(result) FROM games WHERE games.player_id = %s AND action = TRUE", (player_id,))
