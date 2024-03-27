@@ -34,7 +34,7 @@ def handle_game_move():
 
 @app.route("/master_user/getData22", methods=["GET"])
 def get_data():
-    values = db_manager.get_values()
+    values = db_manager.get_master_user_data()
     return jsonify(values)
 
 @app.route("/get_player_statistics", methods=["GET"])
