@@ -40,12 +40,15 @@ def get_master_user_data():
         cur.execute("SELECT COUNT(*) FROM players WHERE players.finished = TRUE")
         n_finishing_players = cur.fetchone()[0]
         cur.execute("SELECT COUNT(*) FROM games")
+        n_moves = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM games WHERE action = TRUE")
         n_games = cur.fetchone()[0]
         cur.execute("SELECT AVG(result) FROM games WHERE action = TRUE")
         average_score = cur.fetchone()[0]
 
     return {
         "n_players": n_players,
+        "n_moves": n_moves,
         "n_games": n_games,
         "average_score": average_score,
         "n_finishing_players": n_finishing_players
