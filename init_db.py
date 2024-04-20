@@ -52,7 +52,7 @@ with conn.cursor() as cur:
     cur.execute('CREATE TABLE IF NOT EXISTS concurso ('
         'id serial PRIMARY KEY,'
         'player_id integer REFERENCES players(id),'
-        'player_paypal varchar(150) NOT NULL,'
+        'player_paypal varchar(150) NOT NULL'
         ');')
 
     conn.commit()
