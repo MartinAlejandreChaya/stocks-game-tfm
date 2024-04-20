@@ -49,3 +49,11 @@
     margin-top: 8px;
 }
 
+#user-data #user-data-concurso-text {
+    text-align: justify;
+    color: #505050;
+}
+#user-data #user-data-concurso-paypal {
+    width: 100%;
+    margin-top: 5px;
+}
