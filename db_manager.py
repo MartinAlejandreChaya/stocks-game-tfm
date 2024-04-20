@@ -25,6 +25,9 @@ def new_player(player_data):
 
         player_id = cur.fetchone()[0]
 
+        if (player_data["paypal"]):
+            cur.execute("INSERT INTO concurso (player_id, player_paypal) VALUES (%s, %s)", (player_id, player_data["paypal"]))
+
     conn.commit()
     return {
         "player_id": player_id,

@@ -49,6 +49,12 @@ with conn.cursor() as cur:
         'result DECIMAL'
         ');')
 
+    cur.execute('CREATE TABLE IF NOT EXISTS concurso ('
+        'id serial PRIMARY KEY,'
+        'player_id integer REFERENCES players(id),'
+        'player_paypal varchar(150) NOT NULL,'
+        ');')
+
     conn.commit()
     cur.close()
 
