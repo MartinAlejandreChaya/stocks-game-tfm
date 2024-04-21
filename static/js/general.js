@@ -208,6 +208,12 @@ function verify_user_data() {
         return {"error": "The study field should be shorter than 150 characters."}
     }
 
+    // Concurso
+    paypal = document.getElementById("user-data-concurso-paypal").value;
+    if (paypal.length > 150 || paypal.length <= 0) {
+        paypal = false
+    }
+
     // All data is good
     return {
         "name": name,
@@ -215,6 +221,7 @@ function verify_user_data() {
         "gender": gender,
         "study_level": study_level,
         "study_field":  study_field,
+        "paypal": paypal,
         "error": false,
     };
 }
